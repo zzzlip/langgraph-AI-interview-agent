@@ -1,0 +1,1389 @@
+{
+  "数组": {
+    "简单": [
+      {
+        "题目": "合并两个有序数组",
+        "链接": "https://leetcode.cn/problems/merge-sorted-array/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "删除有序数组中的重复项 II",
+        "链接": "https://leetcode.cn/problems/remove-duplicates-from-sorted-array-ii/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "汇总区间",
+        "链接": "https://leetcode.cn/problems/summary-ranges/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "将有序数组转换为二叉搜索树",
+        "链接": "https://leetcode.cn/problems/convert-sorted-array-to-binary-search-tree/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "搜索插入位置",
+        "链接": "https://leetcode.cn/problems/search-insert-position/description/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ],
+    "中等": [
+      {
+        "题目": "两数之和II-输入有序数组",
+        "链接": "https://leetcode.cn/problems/two-sum-ii-input-array-is-sorted/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "盛最多水的容器",
+        "链接": "https://leetcode.cn/problems/container-with-most-water/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "三数之和",
+        "链接": "https://leetcode.cn/problems/3sum/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "长度最小的子数组",
+        "链接": "https://leetcode.cn/problems/minimum-size-subarray-sum/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "有效的数独",
+        "链接": "https://leetcode.cn/problems/valid-sudoku/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "螺旋矩阵",
+        "链接": "https://leetcode.cn/problems/spiral-matrix/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "旋转图像",
+        "链接": "https://leetcode.cn/problems/rotate-image/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "矩阵置零",
+        "链接": "https://leetcode.cn/problems/set-matrix-zeroes/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "生命游戏",
+        "链接": "https://leetcode.cn/problems/game-of-life/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "字母异位词分组",
+        "链接": "https://leetcode.cn/problems/group-anagrams/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "最长连续序列",
+        "链接": "https://leetcode.cn/problems/longest-consecutive-sequence/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "合并区间",
+        "链接": "https://leetcode.cn/problems/merge-intervals/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "插入区间",
+        "链接": "https://leetcode.cn/problems/insert-interval/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "用最少数量的箭引爆气球",
+        "链接": "https://leetcode.cn/problems/minimum-number-of-arrows-to-burst-balloons/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "从前序与中序遍历序列构造二叉树",
+        "链接": "https://leetcode.cn/problems/construct-binary-tree-from-preorder-and-inorder-traversal/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "岛屿数量",
+        "链接": "https://leetcode.cn/problems/number-of-islands/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "被围绕的区域",
+        "链接": "https://leetcode.cn/problems/surrounded-regions/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "除法求值",
+        "链接": "https://leetcode.cn/problems/evaluate-division/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "蛇梯棋",
+        "链接": "https://leetcode.cn/problems/snakes-and-ladders/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "全排列",
+        "链接": "https://leetcode.cn/problems/permutations/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "组合总数",
+        "链接": "https://leetcode.cn/problems/combination-sum/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "建立四叉树",
+        "链接": "https://leetcode.cn/problems/construct-quad-tree/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "最大子数组和",
+        "链接": "https://leetcode.cn/problems/maximum-subarray/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "环形子数组的最大和",
+        "链接": "https://leetcode.cn/problems/maximum-sum-circular-subarray/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "搜索二维矩阵",
+        "链接": "https://leetcode.cn/problems/search-a-2d-matrix/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "寻找峰值",
+        "链接": "https://leetcode.cn/problems/find-peak-element/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "数组中的第K个最大元素",
+        "链接": "https://leetcode.cn/problems/kth-largest-element-in-an-array/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "查找和最小的K对数字",
+        "链接": "https://leetcode.cn/problems/find-k-pairs-with-smallest-sums/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "只出现一次的数字II",
+        "链接": "https://leetcode.cn/problems/single-number-ii/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "打家劫舍",
+        "链接": "https://leetcode.cn/problems/house-robber/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "单词拆分",
+        "链接": "https://leetcode.cn/problems/word-break/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "零钱兑换",
+        "链接": "https://leetcode.cn/problems/coin-change/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "最大正方形",
+        "链接": "https://leetcode.cn/problems/maximal-square/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ],
+    "困难": [
+      {
+        "题目": "分发糖果",
+        "链接": "https://leetcode.cn/problems/candy/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "文本左右对齐",
+        "链接": "https://leetcode.cn/problems/text-justification/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "单词搜索II",
+        "链接": "https://leetcode.cn/problems/word-search-ii/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "寻找两个正序数组的中位数",
+        "链接": "https://leetcode.cn/problems/median-of-two-sorted-arrays/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "IPO",
+        "链接": "https://leetcode.cn/problems/ipo/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "直线上最多的点数",
+        "链接": "https://leetcode.cn/problems/max-points-on-a-line/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "买卖股票的最佳时机III",
+        "链接": "https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-iii/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "买卖股票的最佳时机IV",
+        "链接": "https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-iv/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ]
+  },
+  "双指针": {
+    "简单": [
+      {
+        "题目": "合并两个有序数组",
+        "链接": "https://leetcode.cn/problems/merge-sorted-array/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "删除有序数组中的重复项 II",
+        "链接": "https://leetcode.cn/problems/remove-duplicates-from-sorted-array-ii/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "验证回文串",
+        "链接": "https://leetcode.cn/problems/valid-palindrome/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "环形链表",
+        "链接": "https://leetcode.cn/problems/linked-list-cycle/description/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ],
+    "中等": [
+      {
+        "题目": "两数之和II-输入有序数组",
+        "链接": "https://leetcode.cn/problems/two-sum-ii-input-array-is-sorted/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "盛最多水的容器",
+        "链接": "https://leetcode.cn/problems/container-with-most-water/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "三数之和",
+        "链接": "https://leetcode.cn/problems/3sum/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "排序链表",
+        "链接": "https://leetcode.cn/problems/sort-list/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ],
+    "困难": [
+      {
+        "题目": "数据流的中位数",
+        "链接": "https://leetcode.cn/problems/find-median-from-data-stream/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ]
+  },
+  "排序": {
+    "简单": [
+      {
+        "题目": "合并两个有序数组",
+        "链接": "https://leetcode.cn/problems/merge-sorted-array/description/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ],
+    "中等": [
+      {
+        "题目": "三数之和",
+        "链接": "https://leetcode.cn/problems/3sum/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "字母异位词分组",
+        "链接": "https://leetcode.cn/problems/group-anagrams/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "合并区间",
+        "链接": "https://leetcode.cn/problems/merge-intervals/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "用最少数量的箭引爆气球",
+        "链接": "https://leetcode.cn/problems/minimum-number-of-arrows-to-burst-balloons/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "排序链表",
+        "链接": "https://leetcode.cn/problems/sort-list/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "数组中的第K个最大元素",
+        "链接": "https://leetcode.cn/problems/kth-largest-element-in-an-array/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ],
+    "困难": [
+      {
+        "题目": "IPO",
+        "链接": "https://leetcode.cn/problems/ipo/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "数据流的中位数",
+        "链接": "https://leetcode.cn/problems/find-median-from-data-stream/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ]
+  },
+  "贪心": {
+    "简单": [],
+    "中等": [
+      {
+        "题目": "盛最多水的容器",
+        "链接": "https://leetcode.cn/problems/container-with-most-water/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "用最少数量的箭引爆气球",
+        "链接": "https://leetcode.cn/problems/minimum-number-of-arrows-to-burst-balloons/description/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ],
+    "困难": [
+      {
+        "题目": "分发糖果",
+        "链接": "https://leetcode.cn/problems/candy/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "IPO",
+        "链接": "https://leetcode.cn/problems/ipo/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ]
+  },
+  "字符串": {
+    "简单": [
+      {
+        "题目": "验证回文串",
+        "链接": "https://leetcode.cn/problems/valid-palindrome/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "赎金信",
+        "链接": "https://leetcode.cn/problems/ransom-note/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "同构字符串",
+        "链接": "https://leetcode.cn/problems/isomorphic-strings/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "有效的括号",
+        "链接": "https://leetcode.cn/problems/valid-parentheses/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "二进制求和",
+        "链接": "https://leetcode.cn/problems/add-binary/description/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ],
+    "中等": [
+      {
+        "题目": "无重复字符的最长子串",
+        "链接": "https://leetcode.cn/problems/longest-substring-without-repeating-characters/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "字母异位词分组",
+        "链接": "https://leetcode.cn/problems/group-anagrams/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "简化路径",
+        "链接": "https://leetcode.cn/problems/simplify-path/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "除法求值",
+        "链接": "https://leetcode.cn/problems/evaluate-division/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "最小基因变化",
+        "链接": "https://leetcode.cn/problems/minimum-genetic-mutation/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "实现Trie(前缀树)",
+        "链接": "https://leetcode.cn/problems/implement-trie-prefix-tree/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "添加与搜索单词-数据结构设计",
+        "链接": "https://leetcode.cn/problems/design-add-and-search-words-data-structure/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "电话号码的字母结合",
+        "链接": "https://leetcode.cn/problems/letter-combinations-of-a-phone-number/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "单词拆分",
+        "链接": "https://leetcode.cn/problems/word-break/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "编辑距离",
+        "链接": "https://leetcode.cn/problems/edit-distance/description/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ],
+    "困难": [
+      {
+        "题目": "文本左右对齐",
+        "链接": "https://leetcode.cn/problems/text-justification/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "串联所以单词的子串",
+        "链接": "https://leetcode.cn/problems/substring-with-concatenation-of-all-words/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "最小覆盖子串",
+        "链接": "https://leetcode.cn/problems/minimum-window-substring/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "基本计算器",
+        "链接": "https://leetcode.cn/problems/basic-calculator/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "单词接龙",
+        "链接": "https://leetcode.cn/problems/word-ladder/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "单词搜索II",
+        "链接": "https://leetcode.cn/problems/word-search-ii/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ]
+  },
+  "模拟": {
+    "简单": [
+      {
+        "题目": "二进制求和",
+        "链接": "https://leetcode.cn/problems/add-binary/description/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ],
+    "中等": [
+      {
+        "题目": "螺旋矩阵",
+        "链接": "https://leetcode.cn/problems/spiral-matrix/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "生命游戏",
+        "链接": "https://leetcode.cn/problems/game-of-life/description/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ],
+    "困难": [
+      {
+        "题目": "文本左右对齐",
+        "链接": "https://leetcode.cn/problems/text-justification/description/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ]
+  },
+  "二分查找": {
+    "简单": [
+      {
+        "题目": "搜索插入位置",
+        "链接": "https://leetcode.cn/problems/search-insert-position/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "x的平方根",
+        "链接": "https://leetcode.cn/problems/sqrtx/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ],
+    "中等": [
+      {
+        "题目": "两数之和II-输入有序数组",
+        "链接": "https://leetcode.cn/problems/two-sum-ii-input-array-is-sorted/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "长度最小的子数组",
+        "链接": "https://leetcode.cn/problems/minimum-size-subarray-sum/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "搜索二维矩阵",
+        "链接": "https://leetcode.cn/problems/search-a-2d-matrix/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "寻找峰值",
+        "链接": "https://leetcode.cn/problems/find-peak-element/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ],
+    "困难": [
+      {
+        "题目": "寻找两个正序数组的中位数",
+        "链接": "https://leetcode.cn/problems/median-of-two-sorted-arrays/description/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ]
+  },
+  "前缀和": {
+    "简单": [],
+    "中等": [
+      {
+        "题目": "长度最小的子数组",
+        "链接": "https://leetcode.cn/problems/minimum-size-subarray-sum/description/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ],
+    "困难": []
+  },
+  "滑动窗口": {
+    "简单": [],
+    "中等": [
+      {
+        "题目": "长度最小的子数组",
+        "链接": "https://leetcode.cn/problems/minimum-size-subarray-sum/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "无重复字符的最长子串",
+        "链接": "https://leetcode.cn/problems/longest-substring-without-repeating-characters/description/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ],
+    "困难": [
+      {
+        "题目": "串联所以单词的子串",
+        "链接": "https://leetcode.cn/problems/substring-with-concatenation-of-all-words/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "最小覆盖子串",
+        "链接": "https://leetcode.cn/problems/minimum-window-substring/description/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ]
+  },
+  "哈希表": {
+    "简单": [
+      {
+        "题目": "赎金信",
+        "链接": "https://leetcode.cn/problems/ransom-note/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "同构字符串",
+        "链接": "https://leetcode.cn/problems/isomorphic-strings/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "环形链表",
+        "链接": "https://leetcode.cn/problems/linked-list-cycle/description/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ],
+    "中等": [
+      {
+        "题目": "无重复字符的最长子串",
+        "链接": "https://leetcode.cn/problems/longest-substring-without-repeating-characters/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "有效的数独",
+        "链接": "https://leetcode.cn/problems/valid-sudoku/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "矩阵置零",
+        "链接": "https://leetcode.cn/problems/set-matrix-zeroes/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "字母异位词分组",
+        "链接": "https://leetcode.cn/problems/group-anagrams/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "最长连续序列",
+        "链接": "https://leetcode.cn/problems/longest-consecutive-sequence/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "随机链表的复制",
+        "链接": "https://leetcode.cn/problems/copy-list-with-random-pointer/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "从前序与中序遍历序列构造二叉树",
+        "链接": "https://leetcode.cn/problems/construct-binary-tree-from-preorder-and-inorder-traversal/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "克隆图",
+        "链接": "https://leetcode.cn/problems/clone-graph/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "最小基因变化",
+        "链接": "https://leetcode.cn/problems/minimum-genetic-mutation/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "实现Trie(前缀树)",
+        "链接": "https://leetcode.cn/problems/implement-trie-prefix-tree/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "电话号码的字母结合",
+        "链接": "https://leetcode.cn/problems/letter-combinations-of-a-phone-number/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "单词拆分",
+        "链接": "https://leetcode.cn/problems/word-break/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ],
+    "困难": [
+      {
+        "题目": "串联所以单词的子串",
+        "链接": "https://leetcode.cn/problems/substring-with-concatenation-of-all-words/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "最小覆盖子串",
+        "链接": "https://leetcode.cn/problems/minimum-window-substring/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "单词接龙",
+        "链接": "https://leetcode.cn/problems/word-ladder/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "直线上最多的点数",
+        "链接": "https://leetcode.cn/problems/max-points-on-a-line/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ]
+  },
+  "矩阵": {
+    "简单": [],
+    "中等": [
+      {
+        "题目": "有效的数独",
+        "链接": "https://leetcode.cn/problems/valid-sudoku/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "螺旋矩阵",
+        "链接": "https://leetcode.cn/problems/spiral-matrix/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "旋转图像",
+        "链接": "https://leetcode.cn/problems/rotate-image/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "矩阵置零",
+        "链接": "https://leetcode.cn/problems/set-matrix-zeroes/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "生命游戏",
+        "链接": "https://leetcode.cn/problems/game-of-life/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "岛屿数量",
+        "链接": "https://leetcode.cn/problems/number-of-islands/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "被围绕的区域",
+        "链接": "https://leetcode.cn/problems/surrounded-regions/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "蛇梯棋",
+        "链接": "https://leetcode.cn/problems/snakes-and-ladders/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "建立四叉树",
+        "链接": "https://leetcode.cn/problems/construct-quad-tree/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "搜索二维矩阵",
+        "链接": "https://leetcode.cn/problems/search-a-2d-matrix/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "最大正方形",
+        "链接": "https://leetcode.cn/problems/maximal-square/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ],
+    "困难": [
+      {
+        "题目": "单词搜索II",
+        "链接": "https://leetcode.cn/problems/word-search-ii/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ]
+  },
+  "数学": {
+    "简单": [
+      {
+        "题目": "二进制求和",
+        "链接": "https://leetcode.cn/problems/add-binary/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "x的平方根",
+        "链接": "https://leetcode.cn/problems/sqrtx/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "爬楼梯",
+        "链接": "https://leetcode.cn/problems/climbing-stairs/description/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ],
+    "中等": [
+      {
+        "题目": "旋转图像",
+        "链接": "https://leetcode.cn/problems/rotate-image/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "两数相加",
+        "链接": "https://leetcode.cn/problems/add-two-numbers/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "阶乘后的零",
+        "链接": "https://leetcode.cn/problems/factorial-trailing-zeroes/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "Pow(x,n)",
+        "链接": "https://leetcode.cn/problems/powx-n/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ],
+    "困难": [
+      {
+        "题目": "基本计算器",
+        "链接": "https://leetcode.cn/problems/basic-calculator/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "直线上最多的点数",
+        "链接": "https://leetcode.cn/problems/max-points-on-a-line/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ]
+  },
+  "计数": {
+    "简单": [
+      {
+        "题目": "赎金信",
+        "链接": "https://leetcode.cn/problems/ransom-note/description/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ],
+    "中等": [],
+    "困难": []
+  },
+  "并查集": {
+    "简单": [],
+    "中等": [
+      {
+        "题目": "最长连续序列",
+        "链接": "https://leetcode.cn/problems/longest-consecutive-sequence/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "岛屿数量",
+        "链接": "https://leetcode.cn/problems/number-of-islands/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "被围绕的区域",
+        "链接": "https://leetcode.cn/problems/surrounded-regions/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "除法求值",
+        "链接": "https://leetcode.cn/problems/evaluate-division/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ],
+    "困难": []
+  },
+  "栈": {
+    "简单": [
+      {
+        "题目": "有效的括号",
+        "链接": "https://leetcode.cn/problems/valid-parentheses/description/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ],
+    "中等": [
+      {
+        "题目": "简化路径",
+        "链接": "https://leetcode.cn/problems/simplify-path/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "最小栈",
+        "链接": "https://leetcode.cn/problems/min-stack/description/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ],
+    "困难": [
+      {
+        "题目": "基本计算器",
+        "链接": "https://leetcode.cn/problems/basic-calculator/description/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ]
+  },
+  "设计": {
+    "简单": [],
+    "中等": [
+      {
+        "题目": "最小栈",
+        "链接": "https://leetcode.cn/problems/min-stack/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "实现Trie(前缀树)",
+        "链接": "https://leetcode.cn/problems/implement-trie-prefix-tree/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "添加与搜索单词-数据结构设计",
+        "链接": "https://leetcode.cn/problems/design-add-and-search-words-data-structure/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ],
+    "困难": [
+      {
+        "题目": "数据流的中位数",
+        "链接": "https://leetcode.cn/problems/find-median-from-data-stream/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ]
+  },
+  "递归": {
+    "简单": [],
+    "中等": [
+      {
+        "题目": "两数相加",
+        "链接": "https://leetcode.cn/problems/add-two-numbers/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "Pow(x,n)",
+        "链接": "https://leetcode.cn/problems/powx-n/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ],
+    "困难": [
+      {
+        "题目": "基本计算器",
+        "链接": "https://leetcode.cn/problems/basic-calculator/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "K个一组翻转链表",
+        "链接": "https://leetcode.cn/problems/reverse-nodes-in-k-group/description/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ]
+  },
+  "链表": {
+    "简单": [
+      {
+        "题目": "环形链表",
+        "链接": "https://leetcode.cn/problems/linked-list-cycle/description/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ],
+    "中等": [
+      {
+        "题目": "两数相加",
+        "链接": "https://leetcode.cn/problems/add-two-numbers/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "随机链表的复制",
+        "链接": "https://leetcode.cn/problems/copy-list-with-random-pointer/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "排序链表",
+        "链接": "https://leetcode.cn/problems/sort-list/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ],
+    "困难": [
+      {
+        "题目": "K个一组翻转链表",
+        "链接": "https://leetcode.cn/problems/reverse-nodes-in-k-group/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "合并K个升序链表",
+        "链接": "https://leetcode.cn/problems/merge-k-sorted-lists/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ]
+  },
+  "树": {
+    "简单": [
+      {
+        "题目": "二叉树的最大深度",
+        "链接": "https://leetcode.cn/problems/maximum-depth-of-binary-tree/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "相同的树",
+        "链接": "https://leetcode.cn/problems/same-tree/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "二叉树的层平均值",
+        "链接": "https://leetcode.cn/problems/average-of-levels-in-binary-tree/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "二叉搜索树的最小绝对差",
+        "链接": "https://leetcode.cn/problems/minimum-absolute-difference-in-bst/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "将有序数组转换为二叉搜索树",
+        "链接": "https://leetcode.cn/problems/convert-sorted-array-to-binary-search-tree/description/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ],
+    "中等": [
+      {
+        "题目": "从前序与中序遍历序列构造二叉树",
+        "链接": "https://leetcode.cn/problems/construct-binary-tree-from-preorder-and-inorder-traversal/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "二叉树的右视图",
+        "链接": "https://leetcode.cn/problems/binary-tree-right-side-view/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "二叉树的层序遍历",
+        "链接": "https://leetcode.cn/problems/binary-tree-level-order-traversal/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "二叉树的锯齿形层序遍历",
+        "链接": "https://leetcode.cn/problems/binary-tree-zigzag-level-order-traversal/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "二叉搜索树中第K小的元素",
+        "链接": "https://leetcode.cn/problems/kth-smallest-element-in-a-bst/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "验证二叉搜索树",
+        "链接": "https://leetcode.cn/problems/validate-binary-search-tree/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "建立四叉树",
+        "链接": "https://leetcode.cn/problems/construct-quad-tree/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ],
+    "困难": [
+      {
+        "题目": "二叉树中的最大路径和",
+        "链接": "https://leetcode.cn/problems/binary-tree-maximum-path-sum/description/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ]
+  },
+  "深度优先探索": {
+    "简单": [
+      {
+        "题目": "二叉树的最大深度",
+        "链接": "https://leetcode.cn/problems/maximum-depth-of-binary-tree/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "相同的树",
+        "链接": "https://leetcode.cn/problems/same-tree/description/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ],
+    "中等": [],
+    "困难": [
+      {
+        "题目": "二叉树中的最大路径和",
+        "链接": "https://leetcode.cn/problems/binary-tree-maximum-path-sum/description/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ]
+  },
+  "广度优先探索": {
+    "简单": [
+      {
+        "题目": "二叉树的最大深度",
+        "链接": "https://leetcode.cn/problems/maximum-depth-of-binary-tree/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "相同的树",
+        "链接": "https://leetcode.cn/problems/same-tree/description/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ],
+    "中等": [],
+    "困难": []
+  },
+  "二叉树": {
+    "简单": [
+      {
+        "题目": "二叉树的最大深度",
+        "链接": "https://leetcode.cn/problems/maximum-depth-of-binary-tree/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "相同的树",
+        "链接": "https://leetcode.cn/problems/same-tree/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "二叉树的层平均值",
+        "链接": "https://leetcode.cn/problems/average-of-levels-in-binary-tree/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "二叉搜索树的最小绝对差",
+        "链接": "https://leetcode.cn/problems/minimum-absolute-difference-in-bst/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "将有序数组转换为二叉搜索树",
+        "链接": "https://leetcode.cn/problems/convert-sorted-array-to-binary-search-tree/description/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ],
+    "中等": [
+      {
+        "题目": "从前序与中序遍历序列构造二叉树",
+        "链接": "https://leetcode.cn/problems/construct-binary-tree-from-preorder-and-inorder-traversal/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "二叉树的右视图",
+        "链接": "https://leetcode.cn/problems/binary-tree-right-side-view/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "二叉树的层序遍历",
+        "链接": "https://leetcode.cn/problems/binary-tree-level-order-traversal/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "二叉树的锯齿形层序遍历",
+        "链接": "https://leetcode.cn/problems/binary-tree-zigzag-level-order-traversal/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "二叉搜索树中第K小的元素",
+        "链接": "https://leetcode.cn/problems/kth-smallest-element-in-a-bst/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "验证二叉搜索树",
+        "链接": "https://leetcode.cn/problems/validate-binary-search-tree/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ],
+    "困难": [
+      {
+        "题目": "二叉树中的最大路径和",
+        "链接": "https://leetcode.cn/problems/binary-tree-maximum-path-sum/description/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ]
+  },
+  "分治": {
+    "简单": [
+      {
+        "题目": "将有序数组转换为二叉搜索树",
+        "链接": "https://leetcode.cn/problems/convert-sorted-array-to-binary-search-tree/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "颠倒二进制位",
+        "链接": "https://leetcode.cn/problems/reverse-bits/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ],
+    "中等": [
+      {
+        "题目": "从前序与中序遍历序列构造二叉树",
+        "链接": "https://leetcode.cn/problems/construct-binary-tree-from-preorder-and-inorder-traversal/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "排序链表",
+        "链接": "https://leetcode.cn/problems/sort-list/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "建立四叉树",
+        "链接": "https://leetcode.cn/problems/construct-quad-tree/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "最大子数组和",
+        "链接": "https://leetcode.cn/problems/maximum-subarray/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "环形子数组的最大和",
+        "链接": "https://leetcode.cn/problems/maximum-sum-circular-subarray/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "数组中的第K个最大元素",
+        "链接": "https://leetcode.cn/problems/kth-largest-element-in-an-array/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ],
+    "困难": [
+      {
+        "题目": "合并K个升序链表",
+        "链接": "https://leetcode.cn/problems/merge-k-sorted-lists/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "寻找两个正序数组的中位数",
+        "链接": "https://leetcode.cn/problems/median-of-two-sorted-arrays/description/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ]
+  },
+  "动态规划": {
+    "简单": [
+      {
+        "题目": "爬楼梯",
+        "链接": "https://leetcode.cn/problems/climbing-stairs/description/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ],
+    "中等": [
+      {
+        "题目": "最大子数组和",
+        "链接": "https://leetcode.cn/problems/maximum-subarray/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "环形子数组的最大和",
+        "链接": "https://leetcode.cn/problems/maximum-sum-circular-subarray/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "打家劫舍",
+        "链接": "https://leetcode.cn/problems/house-robber/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "单词拆分",
+        "链接": "https://leetcode.cn/problems/word-break/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "零钱兑换",
+        "链接": "https://leetcode.cn/problems/coin-change/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "编辑距离",
+        "链接": "https://leetcode.cn/problems/edit-distance/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "最大正方形",
+        "链接": "https://leetcode.cn/problems/maximal-square/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ],
+    "困难": [
+      {
+        "题目": "二叉树中的最大路径和",
+        "链接": "https://leetcode.cn/problems/binary-tree-maximum-path-sum/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "买卖股票的最佳时机III",
+        "链接": "https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-iii/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "买卖股票的最佳时机IV",
+        "链接": "https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-iv/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ]
+  },
+  "深度优先搜索": {
+    "简单": [
+      {
+        "题目": "二叉树的层平均值",
+        "链接": "https://leetcode.cn/problems/average-of-levels-in-binary-tree/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "二叉搜索树的最小绝对差",
+        "链接": "https://leetcode.cn/problems/minimum-absolute-difference-in-bst/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ],
+    "中等": [
+      {
+        "题目": "二叉树的右视图",
+        "链接": "https://leetcode.cn/problems/binary-tree-right-side-view/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "二叉搜索树中第K小的元素",
+        "链接": "https://leetcode.cn/problems/kth-smallest-element-in-a-bst/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "验证二叉搜索树",
+        "链接": "https://leetcode.cn/problems/validate-binary-search-tree/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "岛屿数量",
+        "链接": "https://leetcode.cn/problems/number-of-islands/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "被围绕的区域",
+        "链接": "https://leetcode.cn/problems/surrounded-regions/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "克隆图",
+        "链接": "https://leetcode.cn/problems/clone-graph/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "除法求值",
+        "链接": "https://leetcode.cn/problems/evaluate-division/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "添加与搜索单词-数据结构设计",
+        "链接": "https://leetcode.cn/problems/design-add-and-search-words-data-structure/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ],
+    "困难": []
+  },
+  "广度优先搜索": {
+    "简单": [
+      {
+        "题目": "二叉树的层平均值",
+        "链接": "https://leetcode.cn/problems/average-of-levels-in-binary-tree/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "二叉搜索树的最小绝对差",
+        "链接": "https://leetcode.cn/problems/minimum-absolute-difference-in-bst/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ],
+    "中等": [
+      {
+        "题目": "二叉树的右视图",
+        "链接": "https://leetcode.cn/problems/binary-tree-right-side-view/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "二叉树的层序遍历",
+        "链接": "https://leetcode.cn/problems/binary-tree-level-order-traversal/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "二叉树的锯齿形层序遍历",
+        "链接": "https://leetcode.cn/problems/binary-tree-zigzag-level-order-traversal/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "二叉搜索树中第K小的元素",
+        "链接": "https://leetcode.cn/problems/kth-smallest-element-in-a-bst/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "验证二叉搜索树",
+        "链接": "https://leetcode.cn/problems/validate-binary-search-tree/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "岛屿数量",
+        "链接": "https://leetcode.cn/problems/number-of-islands/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "被围绕的区域",
+        "链接": "https://leetcode.cn/problems/surrounded-regions/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "克隆图",
+        "链接": "https://leetcode.cn/problems/clone-graph/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "除法求值",
+        "链接": "https://leetcode.cn/problems/evaluate-division/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "蛇梯棋",
+        "链接": "https://leetcode.cn/problems/snakes-and-ladders/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "最小基因变化",
+        "链接": "https://leetcode.cn/problems/minimum-genetic-mutation/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "零钱兑换",
+        "链接": "https://leetcode.cn/problems/coin-change/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ],
+    "困难": [
+      {
+        "题目": "单词接龙",
+        "链接": "https://leetcode.cn/problems/word-ladder/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ]
+  },
+  "二叉搜索树": {
+    "简单": [
+      {
+        "题目": "二叉搜索树的最小绝对差",
+        "链接": "https://leetcode.cn/problems/minimum-absolute-difference-in-bst/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "将有序数组转换为二叉搜索树",
+        "链接": "https://leetcode.cn/problems/convert-sorted-array-to-binary-search-tree/description/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ],
+    "中等": [],
+    "困难": []
+  },
+  "图": {
+    "简单": [],
+    "中等": [
+      {
+        "题目": "克隆图",
+        "链接": "https://leetcode.cn/problems/clone-graph/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "除法求值",
+        "链接": "https://leetcode.cn/problems/evaluate-division/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ],
+    "困难": []
+  },
+  "最短路": {
+    "简单": [],
+    "中等": [
+      {
+        "题目": "除法求值",
+        "链接": "https://leetcode.cn/problems/evaluate-division/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ],
+    "困难": []
+  },
+  "字典树": {
+    "简单": [],
+    "中等": [
+      {
+        "题目": "实现Trie(前缀树)",
+        "链接": "https://leetcode.cn/problems/implement-trie-prefix-tree/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "添加与搜索单词-数据结构设计",
+        "链接": "https://leetcode.cn/problems/design-add-and-search-words-data-structure/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "单词拆分",
+        "链接": "https://leetcode.cn/problems/word-break/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ],
+    "困难": [
+      {
+        "题目": "单词搜索II",
+        "链接": "https://leetcode.cn/problems/word-search-ii/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ]
+  },
+  "回溯": {
+    "简单": [],
+    "中等": [
+      {
+        "题目": "电话号码的字母结合",
+        "链接": "https://leetcode.cn/problems/letter-combinations-of-a-phone-number/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "组合",
+        "链接": "https://leetcode.cn/problems/combinations/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "全排列",
+        "链接": "https://leetcode.cn/problems/permutations/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "组合总数",
+        "链接": "https://leetcode.cn/problems/combination-sum/description/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ],
+    "困难": [
+      {
+        "题目": "单词搜索II",
+        "链接": "https://leetcode.cn/problems/word-search-ii/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ]
+  },
+  "归并排序": {
+    "简单": [],
+    "中等": [
+      {
+        "题目": "排序链表",
+        "链接": "https://leetcode.cn/problems/sort-list/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ],
+    "困难": [
+      {
+        "题目": "合并K个升序链表",
+        "链接": "https://leetcode.cn/problems/merge-k-sorted-lists/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ]
+  },
+  "堆（优先队列）": {
+    "简单": [],
+    "中等": [
+      {
+        "题目": "数组中的第K个最大元素",
+        "链接": "https://leetcode.cn/problems/kth-largest-element-in-an-array/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "查找和最小的K对数字",
+        "链接": "https://leetcode.cn/problems/find-k-pairs-with-smallest-sums/description/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ],
+    "困难": [
+      {
+        "题目": "合并K个升序链表",
+        "链接": "https://leetcode.cn/problems/merge-k-sorted-lists/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "IPO",
+        "链接": "https://leetcode.cn/problems/ipo/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "数据流的中位数",
+        "链接": "https://leetcode.cn/problems/find-median-from-data-stream/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ]
+  },
+  "队列": {
+    "简单": [],
+    "中等": [
+      {
+        "题目": "环形子数组的最大和",
+        "链接": "https://leetcode.cn/problems/maximum-sum-circular-subarray/description/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ],
+    "困难": []
+  },
+  "单调队列": {
+    "简单": [],
+    "中等": [
+      {
+        "题目": "环形子数组的最大和",
+        "链接": "https://leetcode.cn/problems/maximum-sum-circular-subarray/description/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ],
+    "困难": []
+  },
+  "快速旋转": {
+    "简单": [],
+    "中等": [
+      {
+        "题目": "数组中的第K个最大元素",
+        "链接": "https://leetcode.cn/problems/kth-largest-element-in-an-array/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ],
+    "困难": []
+  },
+  "数据流": {
+    "简单": [],
+    "中等": [],
+    "困难": [
+      {
+        "题目": "数据流的中位数",
+        "链接": "https://leetcode.cn/problems/find-median-from-data-stream/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ]
+  },
+  "位运算": {
+    "简单": [
+      {
+        "题目": "二进制求和",
+        "链接": "https://leetcode.cn/problems/add-binary/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "颠倒二进制位",
+        "链接": "https://leetcode.cn/problems/reverse-bits/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ],
+    "中等": [
+      {
+        "题目": "只出现一次的数字II",
+        "链接": "https://leetcode.cn/problems/single-number-ii/description/?envType=study-plan-v2&envId=top-interview-150"
+      },
+      {
+        "题目": "数字范围按位与",
+        "链接": "https://leetcode.cn/problems/bitwise-and-of-numbers-range/description/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ],
+    "困难": []
+  },
+  "几何": {
+    "简单": [],
+    "中等": [],
+    "困难": [
+      {
+        "题目": "直线上最多的点数",
+        "链接": "https://leetcode.cn/problems/max-points-on-a-line/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ]
+  },
+  "记忆化搜素": {
+    "简单": [
+      {
+        "题目": "爬楼梯",
+        "链接": "https://leetcode.cn/problems/climbing-stairs/description/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ],
+    "中等": [
+      {
+        "题目": "单词拆分",
+        "链接": "https://leetcode.cn/problems/word-break/?envType=study-plan-v2&envId=top-interview-150"
+      }
+    ],
+    "困难": []
+  }
+}

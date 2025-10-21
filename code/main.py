@@ -1,12 +1,13 @@
 import asyncio
 import os
 
-from resume_agent import agent
+from Main_agent import create_main_agent
+agent=create_main_agent()
 
 job = """"""
 path = ''
 async def main1(): # 简历评价
-    inputs = {'path': path, 'page': '简历评价', 'job': job}
+    inputs = {'path': path, 'workflow_step': '简历评价', 'job': job}
     thread_config = {"configurable": {"thread_id": "5"}}
     async for chunk in agent.astream(inputs, thread_config, stream_mode="updates"):
         print("--- CHUNK ---")
@@ -14,7 +15,7 @@ async def main1(): # 简历评价
         print("\n")
 
 async def main2(): # 简历优化
-    inputs = {'path': path, 'page': '简历优化', 'job': job}
+    inputs = {'path': path, 'workflow_step': '简历优化', 'job': job}
     thread_config = {"configurable": {"thread_id": "5"}}
     async for chunk in agent.astream(inputs, thread_config, stream_mode="updates"):
         print("--- CHUNK ---")
@@ -33,7 +34,7 @@ async def main2(): # 简历优化
                 print("\n")
 
 async def main3(): # 面试训练
-    inputs = {'path': path, 'page': '面试训练', 'job': job,'interview_question_num':[1,0,0,0]}#可以随意更改数目
+    inputs = {'path': path, 'workflow_step': '面试训练', 'job': job,'interview_question_num':[1,0,0,0]}#可以随意更改数目
     thread_config = {"configurable": {"thread_id": "5"}}
     # FIX: Change stream_mode from "messages" to "updates"
     async for chunk in agent.astream(inputs, thread_config, stream_mode="updates"):
@@ -43,7 +44,7 @@ async def main3(): # 面试训练
 
 
 async def main4(): # 模拟面试
-    inputs = {'path': path, 'page': '算法测试', 'job': job,'code_id':'zhangminghao'}#需要给出你在codeforce对应的账号名字
+    inputs = {'path': path, 'workflow_step': '算法测试', 'job': job,'code_id':'zhangminghao'}#需要给出你在codeforce对应的账号名字
     thread_config = {"configurable": {"thread_id": "5"}}
     # FIX: Change stream_mode from "messages" to "updates"
     async for chunk in agent.astream(inputs, thread_config, stream_mode="updates"):

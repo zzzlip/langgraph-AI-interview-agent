@@ -1,17 +1,12 @@
 import asyncio
 import shutil
 import base64
-
 from dashscope import MultiModalConversation
 import api_key
-
 import cv2
 import os
 from base import video_client
 from langchain_core.output_parsers import JsonOutputParser
-
-
-
 async def audio_text(path:str):
     print('正在进行语音识别')
     messages = [

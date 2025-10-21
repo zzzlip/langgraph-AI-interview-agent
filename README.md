@@ -49,11 +49,11 @@ This system evaluates user-provided resumes across five dimensions and generates
 
 #### 2.3 Evaluation Results
 - Five-dimensional Radar Chart
-![Radar Chart](five_dimension_radar.png)
+![Radar Chart](图片/five_dimension_radar.png)
 
 - Evaluation Suggestion Report
-![](b5bebb78537efbd7a995ff10bcb02dd0.png)
-![](b6de6ebddb938ca6abb2cfbf23739d34.png)
+![](图片/b5bebb78537efbd7a995ff10bcb02dd0.png)
+![](图片/b6de6ebddb938ca6abb2cfbf23739d34.png)
 **The report is entirely AI-generated, contains extensive tabular data, is clearly structured, and is easy for users to read. The report primarily includes suggestions for users, such as recommendations for relevant open-source projects, advice on deepening resume projects, and more.**
 
 ### 3. Resume Optimization

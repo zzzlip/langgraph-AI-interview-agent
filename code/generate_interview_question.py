@@ -1,22 +1,76 @@
-from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.prompts import ChatPromptTemplate,SystemMessagePromptTemplate
 from langchain_core.output_parsers import JsonOutputParser
 import asyncio
 import re
 from llama_index.core.schema import Document, TextNode
 from llama_index.readers.file import PDFReader
 from pathlib import Path
-from base import Resume,llm_google,llm_qwen
-async def generate_program_question(resume:Resume)->dict:
+from base import llm_google, llm_qwen, llm
+from state import InterviewState,InterviewInPut
+
+def get_question_num(resume:InterviewInPut)->dict:
+    job=resume['job']
+    system_prompt_template="""
+    # 角色
+你是一位经验丰富的HR技术顾问（HR Tech Consultant），同时也是一名资深的面试官。你擅长分析职位描述（JD），精准判断岗位所需的核心能力，并以此为依据设计科学的面试题目结构。
+
+# 任务
+你的核心任务是：分析我提供的【应聘岗位信息】，判断该岗位是“技术驱动型”还是“业务驱动型”，并根据你的判断，为总数为5道题的一面环节，分配合理的题目数量。
+
+# 背景信息
+我正在开发一个自动化一面系统。系统需要根据不同的岗位信息，智能地生成面试题目。一面总共包含5道题，题型分为三类：
+1.  **技术基础知识问答**：考察候选人对基础理论、工具、算法，技术栈等的掌握程度
+2.  **项目经历技术问答**：深入挖掘候选人过去项目中的技术实践、架构设计和问题解决能力。
+3.  **业务问答**：考察候选人对相关业务领域的理解、产品感知和商业思维。
+
+# 工作流程
+1.  **分析岗位信息**：仔细阅读我提供的【应聘岗位信息】，理解其职责、要求和关键词。
+2.  **评估岗位重心**：
+    *   如果JD中频繁出现底层原理、架构设计、算法、性能优化、源码等关键词，则判断为“**技术驱动型**”。
+    *   如果JD中更侧重于行业解决方案、客户需求、产品功能、数据分析、业务流程等关键词，则判断为“**业务驱动型**”。
+    *   如果两者兼备，请根据主要职责判断其更偏向哪一方。
+3.  **分配题目数量**：根据你的判断，为上述三类题型分配题目数量。
+
+# 约束与规则
+1.  题目总数 **必须** 为 6 道。
+2. “技术基础知识” “业务问答” **至少** 分配 1 道题， “项目经历技术问答”至少分配两道、。
+3.  最终的分配方案需要体现出你对岗位重心的判断。例如，“技术驱动型”岗位的技术基础知识类题目数目应多于业务问题，反之则基础知识类题目数目应少于业务问题岗位。
+
+# 输出格式
+请严格按照以下json格式输出，里面存在一个键 one_interview_question_num 
+interview_question_num 对应类型为 list 对应存储着基础知识问题/项目问题/业务问题相对应所出题目数量
+    """
+    system_prompt = SystemMessagePromptTemplate.from_template(system_prompt_template)
+    prompt = ChatPromptTemplate.from_messages(
+        [
+            system_prompt,
+            ('user', """
+                岗位信息：
+                {job}
+                """)
+        ]
+    )
+    chain=prompt|llm|JsonOutputParser()
+    result=chain.invoke({'job':job})
+    print(result)
+    if isinstance(result,dict):
+        result['interview_question_num']=result['interview_question_num']+[0]
+        result['page']='一面'
+        return  result
+    return {'interview_question_num':[2,2,2,0],'page':'一面'}
+
+async def generate_program_question(resume:InterviewState)->dict:
     """生成项目技术考察题"""
     print('正在进行项目考察')
-    resume_text = resume.get('program', '') + '\n' + resume.get('work', '') + '\n' + resume.get('technology_stack', '')
+    resumes=resume['resume']
+    resume_text = resumes.get('program', '') + '\n' + resumes.get('work', '') + '\n' + resumes.get('technology_stack', '')
     job=resume['job']
     num = resume['interview_question_num'][1]
     print(f'项目考察题目数目：{num}')
     if num == 0:
         print('项目考察结束')
         return {'question': []}
-    prompt_template="""
+    system_prompt_template="""
 # 角色
 你是一位顶尖科技公司的资深技术面试官。你的核心任务是评估候选人与目标岗位的匹配度。你的提问策略是：**以岗位要求为中心，以候选人简历为切入点**，进行深度考察。
 # 核心目标
@@ -46,15 +100,19 @@ async def generate_program_question(resume:Resume)->dict:
 2.  **岗位优先**：所有问题都必须服务于评估【岗位信息】中提到的核心要求。这是最高优先级。
 3.  **简洁聚焦**：每个问题集中考察一个核心要点，避免在一个问题中堆砌多个子问题。
 4.  **最终输出格式**：你的最终输出必须是一个**严格的 JSON 对象**，该对象只包含一个键 `"question"`，其对应的值是一个**字符串列表 (list[str])**。不要在 JSON 对象前后添加任何解释性文字或标记。
-
-用户输入：
-简历信息：
-{resume}
-岗位信息
-{job}
-
 """
-    prompt=ChatPromptTemplate.from_template(prompt_template)
+    system_prompt = SystemMessagePromptTemplate.from_template(system_prompt_template)
+    prompt = ChatPromptTemplate.from_messages(
+        [
+            system_prompt,
+            ('user', """
+                岗位信息：
+                {job}
+                简历信息：
+                {resume}
+                """)
+        ]
+    )
     chain=prompt|llm_google|JsonOutputParser()
     response= await chain.ainvoke({'resume':resume_text,'job':job,'num':num})
     print(response)
@@ -64,17 +122,18 @@ async def generate_program_question(resume:Resume)->dict:
     else:
         return {'question':[]}
 
-async def generate_technology_question(resume:Resume)->dict:
+async def generate_technology_question(resume:InterviewState)->dict:
     """生成技术栈基础知识问题"""
     print('正在进行技术栈考察')
-    resume_text =resume.get('technology_stack', '')
+    resumes=resume['resume']
+    resume_text =resumes.get('technology_stack', '')
     job=resume['job']
     num=resume['interview_question_num'][0]
     print(f'技术考察题目数目：{num}')
     if num==0:
         print('技术考察结束')
         return {'question':[]}
-    prompt_template="""
+    system_prompt_template="""
 # 角色
 你是一位顶尖科技公司的资深技术面试官，专长于评估候选人的**技术理论功底和知识深度**。你的任务是设计一系列问题，精准判断候选人对核心技术领域的理解是否扎实、系统。
 
@@ -111,15 +170,22 @@ async def generate_technology_question(resume:Resume)->dict:
 2.  **绝对禁止场景题**：你的所有问题都**不能**与候选人的具体项目经验挂钩。**严禁**使用“在你的XX项目中...”或“你当时是怎么做的...”等问法。
 3.  **岗位优先原则**：问题的重心必须放在【岗位信息】所要求的技术栈上。
 4.  **简洁聚焦**：每个问题集中考察一个核心知识点。
-5.  **最终输出格式**：你的最终输出必须是一个**严格的 JSON 对象**，该对象只包含一个键 `"question"`，其对应的值是一个**字符串列表 (list[str])**。不要在 JSON 对象前后添加任何解释性文字或标记。
+5.  **最终输出格式**：你的最终输出必须是一个**严格的 JSON 对象**，该对象只包含一个键 `"interview_question"`，其对应的值是一个**字符串列表 (list[str])**。不要在 JSON 对象前后添加任何解释性文字或标记。
+"""
 
-# 用户输入
-简历信息：
-{resume}
-
-岗位信息：
-{job}"""
-    prompt=ChatPromptTemplate.from_template(prompt_template)
+    system_prompt = SystemMessagePromptTemplate.from_template(system_prompt_template)
+    prompt = ChatPromptTemplate.from_messages(
+        [
+            system_prompt,
+            ('user', """
+            # 用户输入
+            简历信息：
+            {resume}
+            岗位信息：
+            {job}
+            """)
+        ]
+    )
     chain=prompt|llm_qwen|JsonOutputParser()
     response= await chain.ainvoke({'resume':resume_text,'job':job,'num':num})
     print(response)
@@ -127,19 +193,20 @@ async def generate_technology_question(resume:Resume)->dict:
         print('技术考察结束')
         return response
     else:
-        return {'question':[]}
+        return {'interview_question':[]}
 
-async def generate_business_question(resume:Resume)->dict:
+async def generate_business_question(resume:InterviewState)->dict:
     """生成业务问题"""
     print('正在进行业务考察')
-    resume_text =resume.get('program', '')+resume.get('work', '')
+    resumes=resume['resume']
+    resume_text =resumes.get('program', '')+resumes.get('work', '')
     job=resume['job']
     num = resume['interview_question_num'][2]
     print(f'业务考察题目数目：{num}')
     if num == 0:
         print('业务考察结束')
         return {'question': []}
-    prompt_template="""
+    system_prompt_template="""
 # 角色: 
 资深业务面试官，你是一位经验极其丰富的业务面试官，专长于通过深度提问来评估候选人的业务理解能力、战略思维、以及过往经验与目标岗位的匹配度。你的面试风格不是考察孤立的知识点，而是通过将候选人的简历项目与公司业务背景紧密结合，挖掘其在实际工作中的思考过程、决策逻辑和最终产出的业务价值。
 你现在需要为一场面试做准备。你已经拿到了以下两份核心材料：
@@ -166,16 +233,21 @@ async def generate_business_question(resume:Resume)->dict:
 3.  **简洁聚焦**：每个问题集中考察一个核心要点，避免在一个问题中堆砌多个子问题。
 4.  **禁止通用问题**：绝对不要提出“请做个自我介绍”、“你的优缺点是什么？”这类与上下文无关的通用问题。
 5.  **聚焦业务层面**：即使简历提到了技术栈，你的问题也应聚焦于“为什么选择这个技术方案来解决某个业务问题”，而不是技术本身。
-6.  **最终输出格式**：你的最终输出必须是一个**严格的 JSON 对象**，该对象只包含一个键 `"question"`，其对应的值是一个**字符串列表 (list[str])**。不要在 JSON 对象前后添加任何解释性文字或标记。
-
-用户输入：
-简历信息：
-{resume}
-岗位信息
-{job}
-
+6.  **最终输出格式**：你的最终输出必须是一个**严格的 JSON 对象**，该对象只包含一个键 `"interview_question"`，其对应的值是一个**字符串列表 (list[str])**。不要在 JSON 对象前后添加任何解释性文字或标记。
 """
-    prompt=ChatPromptTemplate.from_template(prompt_template)
+    system_prompt = SystemMessagePromptTemplate.from_template(system_prompt_template)
+    prompt = ChatPromptTemplate.from_messages(
+        [
+            system_prompt,
+            ('user', """
+                # 用户输入
+                简历信息：
+                {resume}
+                岗位信息：
+                {job}
+                """)
+        ]
+    )
     chain=prompt|llm_qwen|JsonOutputParser()
     response= await chain.ainvoke({'resume':resume_text,'job':job,'num':num})
     print(response)
@@ -183,19 +255,20 @@ async def generate_business_question(resume:Resume)->dict:
         print('业务考察结束')
         return response
     else:
-        return {'question':[]}
+        return {'interview_question':[]}
 
-async def generate_soft_power_question(resume:Resume)->dict:
+async def generate_soft_power_question(resume:InterviewState)->dict:
     """生成软技能考察题"""
     print('正在进行软技能考察')
-    resume_text = resume['resume_text']
+    resumes=resume['resume']
+    resume_text = resumes['resume_text']
     job=resume['job']
     num=resume['interview_question_num'][3]
     print(f'软技能考察题目数目：{num}')
     if num == 0:
         print('软技能考察结束')
         return {'question': []}
-    prompt_template="""
+    system_prompt_template="""
 # 角色与目标
 你现在是一位专业、资深的第二轮面试官，专攻软实力评估。你的核心任务是基于候选人的简历和目标岗位的招聘信息，设计一个有深度、有针对性的面试问题。这个问题的目的是全面考察候选人的某一个或某几个软实力维度，从而评估其与岗位和企业文化的长期匹配度。
 
@@ -228,16 +301,21 @@ async def generate_soft_power_question(resume:Resume)->dict:
 2.  **问题风格:** 避免提出可以用“是/否”简单回答的问题。鼓励使用“请分享一个例子...”、“当你遇到...时，你是如何...”、“描述一个你...的情景...”等句式,避免在一个问题中堆砌多个子问题
 3.  **专注性:** 每次只提出一个问题。严格聚焦于软实力，不要考察技术硬技能,同时每个问题考察的点不要重复，做到深层次，多方位考察
 4.  **口吻:** 保持专业、尊重、中立且富有洞察力的面试官口吻,但是不要出现面试者的信息，都以同学称呼。
-5.  **最终输出格式**：你的最终输出必须是一个**严格的 JSON 对象**，该对象只包含一个键 `"question"`，其对应的值是一个**字符串列表 (list[str]，表示出的对应题目)**。不要在 JSON 对象前后添加任何解释性文字或标记。
-
-用户输入：
-简历信息：
-{resume}
-岗位信息
-{job}
-
+5.  **最终输出格式**：你的最终输出必须是一个**严格的 JSON 对象**，该对象只包含一个键 `"interview_question"`，其对应的值是一个**字符串列表 (list[str]，表示出的对应题目)**。不要在 JSON 对象前后添加任何解释性文字或标记。
 """
-    prompt=ChatPromptTemplate.from_template(prompt_template)
+    system_prompt = SystemMessagePromptTemplate.from_template(system_prompt_template)
+    prompt = ChatPromptTemplate.from_messages(
+        [
+            system_prompt,
+            ('user', """
+                # 用户输入
+                简历信息：
+                {resume}
+                岗位信息：
+                {job}
+                """)
+        ]
+    )
     chain=prompt|llm_google|JsonOutputParser()
     response= await chain.ainvoke({'resume':resume_text,'job':job,'num':num})
     print(response)
@@ -245,6 +323,6 @@ async def generate_soft_power_question(resume:Resume)->dict:
         print('软技能考察结束')
         return response
     else:
-        return {'question':[]}
+        return {'interview_question':[]}
 
 

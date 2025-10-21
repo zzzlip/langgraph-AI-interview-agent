@@ -23,7 +23,7 @@ embeddings = HuggingFaceEmbedding(model_name=path)
 Settings.embed_model = embeddings
 job_name=['数据产品经理', '产品运营专家', '后端开发工程师', '算法工程师', '推荐算法工程师', '自然语言处理工程师', '前端开发工程师', '数据工程师', '数据科学家', '云计算工程师', '全栈工程师', '架构师']
 company_name=['阿里巴巴', '美团', '腾讯', '华为', '字节跳动', '京东', '微软', '百度']
-persist_path="./chroma_db"
+persist_path= "../chroma_db"
 client = chromadb.PersistentClient(path=persist_path)
 collection = client.get_or_create_collection(name="interview_collection")
 vector_store = ChromaVectorStore(
@@ -32,7 +32,7 @@ vector_store = ChromaVectorStore(
     )
 def create_chroma_db():
     full_doc=[]
-    data=json.load(open("面试知识库/interview_questions.json","r",encoding="utf-8"))
+    data=json.load(open("../面试知识库/interview_questions.json", "r", encoding="utf-8"))
     print(len(data['分类列表']))
     for d in data['分类列表']:
         question=d['问题列表']
@@ -59,7 +59,7 @@ def create_chroma_db():
                     )
                     full_doc.append(doc)
 
-    data=json.load(open("面试知识库/JAVA八股文(1).json","r",encoding="utf-8"))
+    data=json.load(open("../面试知识库/JAVA八股文(1).json", "r", encoding="utf-8"))
     for q in data['技能']:
         text=q.get("描述",'')
         types=q.get('面试类型','')

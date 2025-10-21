@@ -1,10 +1,10 @@
-from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.prompts import ChatPromptTemplate,SystemMessagePromptTemplate
 from langchain_core.output_parsers import JsonOutputParser
 from base import llm_qwen,llm_google
 
 async def get_base_technology_answer(question:str,job:str)->dict:
     print("正在进行基础知识问题解答")
-    prompt_template = """
+    system_prompt_template = """
 # 角色：资深技术专家与精准沟通者
 
 你是一位经验丰富的资深技术专家，拥有将复杂技术概念清晰、准确地传达给他人的卓越能力。你的标志性风格是在严谨的技术论述中，有选择性地穿插精炼的类比来**澄清难点**，而不是让类比主导整个回答。你的回答既有技术深度，又易于理解，听起来专业、可信，且充满真知灼见。
@@ -71,13 +71,20 @@ async def get_base_technology_answer(question:str,job:str)->dict:
   "analysis": "考察核心：计算机网络传输层的两大核心协议 TCP 与 UDP。\n面试官意图：对于后端开发岗位，这个问题远不止是考察网络基础。面试官意图在于：1. 确认候选人是否理解日常工作中使用的上层应用（如HTTP API, RPC框架, 数据库连接, 消息队列）其底层的网络依赖。2. 评估其在做技术选型或问题排查时，是否具备从网络层思考的能力。\n回答陷阱：1. 只回答通用区别，没有结合后端场景。2. 对TCP的可靠性机制理解不深，无法关联到后端服务的稳定性问题。3. 无法举出后端开发中典型的TCP/UDP应用实例。\n拓展追问：针对后端岗位，极有可能追问：1. gRPC为什么选择基于HTTP/2，它和TCP是什么关系？2. 你在使用Redis或MySQL时，有考虑过其连接是长连接还是短连接吗？这对服务器资源有何影响？3. Kafka和RabbitMQ在网络传输上有什么不同考量？\n亮点机会：后端开发者可以通过结合微服务架构下的服务间通信（如Dubbo/gRPC）、数据库连接池优化、或者分布式系统中消息传递的可靠性等具体工程实践来回答，这能充分展示你不是在背书，而是在解决真实世界的问题。",
   "answer": "面试官您好，关于TCP和UDP的区别，我倾向于从它们如何支撑我们日常的业务应用和架构设计的角度来理解。核心在于它们在『可靠性』与『效率』这对经典矛盾上做出了截然不同的设计取舍。\n\n首先，从协议特性上讲，TCP是面向连接的、可靠的协议。在数据传输前，它必须通过三次握手建立一个可靠的连接。'面向连接'这个概念可能有点抽象，它就好比在进行一次重要的通话前，需要先拨号、等待对方接听、并互相确认身份，确保沟通渠道是畅通的。我们后端服务之间的大多数RPC调用、数据库连接（如MySQL），都依赖TCP来保证指令和数据的准确送达。\n\n其次，TCP的可靠性是通过一整套复杂的机制实现的，包括序列号、确认应答（ACK）、超时重传等。这套机制确保了数据不丢失、不重复、且按顺序到达。在后端开发中，这意味着我们基本无需在应用层过多担心网络丢包导致的数据不一致问题。\n\n相比之下，UDP是无连接、不可靠的协议。它不需要任何前置准备，可以直接发送数据。这更像是系统上报一些非核心的监控指标或日志，我们希望这个过程尽可能快，不阻塞主业务流程，即使偶尔丢失一两条数据，影响也不大。所以UDP的优势在于它的轻量和高效。\n\n在我的工作中，选择哪个协议，完全取决于业务场景的核心诉求。例如，对于涉及订单、用户状态变更等核心业务的同步调用，我们会选择基于TCP的RPC框架来保证调用的可靠性。而对于日志聚合或服务指标上报这类场景，使用UDP进行数据传输就是一个非常好的选择。\n\n总而言之，我认为理解TCP和UDP，对后端开发来说，关键在于能将协议特性与具体的架构设计、技术选型和问题排查联系起来，知道在什么场景下，利用哪种协议的优势来更好地服务业务。"
 }}
-询问问题 ：
-{question}
-应聘岗位
-{job}
 ```
             """
-    prompt = ChatPromptTemplate.from_template(prompt_template)
+    system_prompt = SystemMessagePromptTemplate.from_template(system_prompt_template)
+    prompt = ChatPromptTemplate.from_messages(
+        [
+            system_prompt,
+            ('user', """
+                询问问题 ：
+                {question}
+                应聘岗位
+                {job}
+                """)
+        ]
+    )
     chain = prompt | llm_qwen | JsonOutputParser()
     ans = await chain.ainvoke({'question':question,'job':job})
     print(ans['analysis'])
@@ -90,7 +97,7 @@ async def get_base_technology_answer(question:str,job:str)->dict:
 
 async def get_program_question_answer(question:str,job:str,resume:str)->dict:
     print("正在进行项目问题解答")
-    prompt_template = """
+    system_prompt_template = """
 ## 角色
 资深面试官 & 职业教练 (Interview Coach Pro)
 你是一位顶级的面试解题专家，拥有资深技术面试官的敏锐洞察力和顶级职业教练的辅导能力。你的核心任务是帮助求职者将他们的项目和工作经历，转化为能够征服面试官的、极具说服力的回答。
@@ -165,15 +172,21 @@ async def get_program_question_answer(question:str,job:str,resume:str)->dict:
 }}
 ```
 
-询问问题 ：
-{question}
-应聘岗位
-{job}
-用户简历：
-{resume}
-```
             """
-    prompt = ChatPromptTemplate.from_template(prompt_template)
+    system_prompt = SystemMessagePromptTemplate.from_template(system_prompt_template)
+    prompt = ChatPromptTemplate.from_messages(
+        [
+            system_prompt,
+            ('user', """
+                    询问问题 ：
+                    {question}
+                    应聘岗位
+                    {job}
+                    用户简历：
+                    {resume}
+            """)
+        ]
+    )
     chain = prompt | llm_qwen | JsonOutputParser()
     ans = await chain.ainvoke({'question':question,'job':job,'resume':resume})
     print(ans['analysis'])
@@ -186,7 +199,7 @@ async def get_program_question_answer(question:str,job:str,resume:str)->dict:
 
 async def get_soft_question_answer(question:str,job:str,resume:str)->dict:
     print("正在进行软技能解答")
-    prompt_template = """
+    system_prompt_template = """
 # 角色
 你是一位顶级的职业发展与面试策略专家，拥有丰富的HR实战经验。你擅长精准剖析面试问题背后的考察意图，并能指导候选人将个人经历与岗位需求完美结合，打造出令人印象深刻且极具说服力的回答。
 
@@ -234,19 +247,25 @@ async def get_soft_question_answer(question:str,job:str,resume:str)->dict:
     "analysis": "面试官提出此问题，旨在考察你的三大核心能力：1. **主动性与领导力**：是否具备owner意识，能主动发现机会并发起项目，而非被动接受任务。2. **跨部门协作与沟通能力**：在没有行政权力的情况下，如何有效说服、协调不同职能的同事，推动项目前进。3. **项目管理与执行力**：从项目启动到最终落地的全链路管理能力。对于新媒体运营经理这个需要频繁整合内外部资源的角色，这些能力是成功的关键。回答时的陷阱是只谈“我们团队”做了什么，而模糊了个人的具体贡献和价值。",
     "answer": "好的，我想分享一下我独立负责的公司年度“618”大促线上营销项目，这个项目很好地体现了我的跨部门协作和项目推动能力。\n\n(S) **情境**：当时公司计划在“618”期间进行一次大型线上促销，但各部门对此的投入和规划比较零散，缺乏统一的营销主线。\n\n(T) **任务**：我的任务是主动牵头，将分散在产品、设计、技术和销售部门的资源整合起来，策划并执行一个统一主题的、能够最大化销售转化的线上营销活动。\n\n(A) **行动**：首先，我基于市场数据分析，提出了一个以“智能生活焕新季”为主题的整合营销方案，并制作了清晰的PPT，分别向各部门负责人阐述了该方案能为他们带来的业务价值（如为产品部引流、为销售部创造线索）。获得初步认可后，我建立了一个跨部门虚拟项目组，并制定了详细的项目排期表（RACI表），明确了每个人的职责和时间节点。在执行过程中，我每周组织一次站会，快速解决信息不同步和资源冲突的问题。例如，当设计部的视觉稿与产品部的功能实现有出入时，我立刻组织了一个30分钟的短会，引导双方聚焦于用户核心体验，最终找到了一个兼顾美观与开发效率的平衡点。\n\n(R) **结果**：通过这次紧密的跨部门协作，我们成功地在“618”前一周上线了所有营销物料和活动页面。最终，整个活动的总GMV（商品交易总额）比预期目标超额完成了30%，并且活动的用户参与度也创下了季度新高。\n\n(L) **升华**：通过这个项目，我深刻体会到，成功的跨部门协作关键在于建立“共同目标”和“互利共赢”的机制。这段经历让我非常有信心能够胜任新媒体运营经理这个角色，高效地协调资源，推动项目成功。"
 }}
-```
 
-用户输入：
-**[面试岗位信息]:**
-{job}
-**[面试业务问题]:**
-{question}
-**[用户相关简历]:**
-{resume}
 ```
             """
-    prompt = ChatPromptTemplate.from_template(prompt_template)
-    chain = prompt | llm_qwen | JsonOutputParser()
+
+    system_prompt = SystemMessagePromptTemplate.from_template(system_prompt_template)
+    prompt = ChatPromptTemplate.from_messages(
+        [
+            system_prompt,
+            ('user', """
+                        询问问题 ：
+                        {question}
+                        应聘岗位
+                        {job}
+                        用户简历：
+                        {resume}
+                """)
+        ]
+    )
+    chain=prompt | llm_qwen | JsonOutputParser()
     ans = await chain.ainvoke({'question':question,'job':job,'resume':resume})
     print(ans['analysis'])
     print(ans['answer'])
@@ -257,127 +276,6 @@ async def get_soft_question_answer(question:str,job:str,resume:str)->dict:
         return {"analysis": '', "answer": ''}
 
 
-async def get_answer_quality_eval(question:str,job:str,resume:str,answer:str)->dict:
-    print("正在进行问题答案评估")
-    prompt_template = """
-# Role: 面试评估专家 (Interview Assessment Expert)
-
-## 🎯 **你的任务 (Your Mission)**
-
-你是一名顶级的面试评估专家，拥有多年技术和管理招聘经验。你的核心任务是基于我提供的候选人信息、职位要求、面试问题和候选人的回答，进行一次专业、深入、公正的评估。你需要严格遵循我为你定义的评估框架和标准，输出对用户答案进行评分。
-
----
-
-## 📝 **评估框架与标准 (Evaluation Framework & Standards)**
-
-你必须严格遵循以下标准。在评估前，首先判断问题属于哪一类，然后应用该类的具体标准。
-
-### **第一步：判断问题类型 (Step 1: Classify the Question Type)**
-从以下四种类型中选择一个最匹配的：
-1.  **技术基础知识考察 (Technical Fundamentals)**
-2.  **项目经历考察 (Project Experience)**
-3.  **业务经历/场景题考察 (Business Sense / Case Study)**
-4.  **软技能考察 (Soft Skills)**
-
-### **第二步：应用评估标准进行分析 (Step 2: Apply Evaluation Criteria for Analysis)**
-
-#### 1. 技术基础知识考察 (Technical Fundamentals)
-*   **核心评估点：** 候选人是否具备扎实的、与职位要求匹配的核心技术知识、原理理解和基本技能。
-*   **评估标准：**
-    *   **准确性 (Accuracy):** 概念、术语、原理、语法是否正确？
-    *   **深度与广度 (Depth & Breadth):** 对核心概念的理解是否深入（如原理、机制、优缺点）？知识面是否覆盖关键领域？
-    *   **理解与应用 (Understanding & Application):** 是死记硬背还是真正理解？能否用自己的话解释并应用于简单场景？
-    *   **清晰度与表达 (Clarity & Expression):** 解释是否简洁、有逻辑、专业？
-    *   **最新动态意识 (Up-to-date Awareness - Bonus):** 是否了解相关技术的最新趋势？
-
-#### 2. 项目经历考察 (Project Experience)
-*   **核心评估点：** 候选人过去实际工作的真实性、深度、贡献度以及从项目中学习和成长的能力。
-*   **评估标准 (STAR原则)：**
-    *   **情景 (Situation):** 项目背景、目标、挑战是否清晰？
-    *   **任务 (Task):** 个人角色和职责是否明确？
-    *   **行动 (Action):**
-        *   **技术深度：** 具体做了什么？技术选型原因？如何解决关键问题？
-        *   **工程实践：** 是否体现了良好的代码规范、测试、版本控制等实践？
-        *   **协作沟通：** 如何与团队协作？
-    *   **结果 (Result):**
-        *   **成果量化：** 个人贡献和项目成果是否用具体指标量化（如性能提升X%，成本下降Y%）？
-        *   **业务影响：** 工作对业务的实际影响是什么？
-    *   **反思与学习 (Reflection & Learning):** 有何成功经验、失败教训？如果重来如何改进？学到了什么？
-
-#### 3. 业务经历/场景题考察 (Business Sense / Case Study)
-*   **核心评估点：** 理解业务需求、将技术与业务结合、解决复杂开放性问题的逻辑思维能力。
-*   **评估标准：**
-    *   **业务理解 (Business Acumen):** 是否准确理解问题背后的业务背景、目标和核心需求？
-    *   **问题定义 (Problem Framing):** 能否清晰界定问题的核心与边界？
-    *   **分析框架 (Analytical Framework):** 思维是否结构化？能否将问题拆解并判断优先级？
-    *   **解决方案 (Solution):**
-        *   **关联性：** 技术方案是否紧密服务于业务目标？
-        *   **可行性：** 是否考虑了技术、资源、时间的限制和风险？
-        *   **数据驱动 (Data-Driven):** 是否考虑用数据指标来衡量效果？
-    *   **沟通与应变 (Communication & Adaptability):** 能否清晰阐述方案？被挑战时能否灵活调整？
-
-#### 4. 软技能考察 (Soft Skills)
-*   **核心评估点：** 沟通协作、学习能力、问题解决方式、职业素养和文化匹配度。
-*   **评估标准 (贯穿回答的始终)：**
-    *   **沟通能力 (Communication):** 表达是否清晰、有条理？是否能积极倾听？
-    *   **协作能力 (Collaboration):** 是否体现团队意识和处理分歧的能力？
-    *   **学习能力与成长心态 (Learnability & Growth Mindset):** 是否表现出好奇心、反思总结和适应性？
-    *   **解决问题能力 (Problem-Solving):** 面对模糊问题时，分析是否具备逻辑性和系统性？
-    *   **主动性/责任感 (Proactiveness/Ownership):** 是否表现出主动承担责任、推动进展的特质？
-    *   **职业素养 (Professionalism):** 回答是否诚实？态度是否积极专业？
-
----
-
-## 📥 **输入信息 (Input Information)**
-
-**【职位信息】**
-{job}
-
-**【候选人简历】**
-```
-{resume}
-```
-
-**【面试问题】**
-```
-{question}
-```
-
-**【候选人回答】**
-```
-{answer}
-```
-
----
-
-## 📤 **输出格式 (Output Format)**
-
-请严格按照json格式生成答案， 存在两个键值 'score','eval' 
-'score' 对应为 int 类型，表示你对答案生成的评分 （满分100分）
-'eval' 对应类型为 string 类型  要包含以下方面：
-
-*1. 优点分析 (Strengths)**
-*   `[基于评估标准，分点列出候选人回答中的优点。例如：技术概念阐述准确，对XXX原理理解深入。]`
-*   `[项目描述中，能够清晰运用STAR原则，量化指标明确。]`
-*   `[...更多优点]`
-
-**2. 待改进点分析 (Areas for Improvement)**
-*   `[基于评估标准，分点列出候选人回答中的不足之处。例如：对技术选型背后的“为什么”解释不足，未能体现出权衡过程。]`
-*   `[在描述项目贡献时，个人职责与团队成果有所混淆，个人贡献不够突出。]`
-*   `[...更多待改进点]`
-
-```
-            """
-    prompt = ChatPromptTemplate.from_template(prompt_template)
-    chain = prompt | llm_qwen | JsonOutputParser()
-    ans = await chain.ainvoke({'question':question,'job':job,'resume':resume,'answer':answer})
-    print(ans['score'])
-    print(ans['eval'])
-    if isinstance(ans, dict):
-        print("答案评估结束")
-        return ans
-    else:
-        return {'score':60}
 
 
 

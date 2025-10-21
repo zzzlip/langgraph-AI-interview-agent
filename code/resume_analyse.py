@@ -1,10 +1,11 @@
-import json
-
+from langgraph.constants import END
+from langgraph.graph import StateGraph
 import jieba
 from keybert import KeyBERT
 from langchain_core.tools import tool
+from langgraph.types import Command
 from sentence_transformers import SentenceTransformer, util
-from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.prompts import ChatPromptTemplate,SystemMessagePromptTemplate
 from langchain_core.output_parsers import StrOutputParser, JsonOutputParser
 from langchain_core.messages import AIMessage
 from langgraph.prebuilt import create_react_agent
@@ -13,120 +14,24 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.patches import Circle
 from matplotlib import patheffects
-import asyncio
 from llama_index.core.schema import TextNode
 from llama_index.readers.file import PDFReader
 from pathlib import Path
 from typing import Annotated
 import api_key
 from langchain_community.utilities import GoogleSerperAPIWrapper
-from base import Resume,llm_google,llm,llm_qwen
+from base import llm_google,llm,llm_qwen
 import os
 import re
-from generate_doc import generate_resume_pdf
-
-os.environ["SERPER_API_KEY"] = api_key.search_api_key
-encode_path = r"" #sentenc-transformer 模型  我使用的是 shibing624text2vec-base-chinese
-STOPWORDS_FILE_PATH = r"stopwords-mast/stopwords-master/scu_stopwords.txt"
-model_for_keybert = SentenceTransformer(
-    encode_path,
-    backend="onnx",
-    device="cuda",
-    model_kwargs={
-        "file_name": "model_O4.onnx",
-        "provider": "CUDAExecutionProvider"
-    }
-)
-kw_model = KeyBERT(model=model_for_keybert)
-
+from  callbacks import  llm_callback_handler
+from state import MainState,ResumeEvaluateInPut,ResumeEvaluateState
+from state import CodeTestOutPut as ResumeEvaluateOutPut
+from generate_doc import create_resume_assessment_report
 @tool(description="调用搜索引擎")
 def web_search(query: Annotated[str, "输入要搜索的内容"]) -> str:
-    searches = GoogleSerperAPIWrapper()
-    return searches.run(query)
-
-
-def optimize_resume(resume: Resume) -> dict:
-    print('正在进行简历优化')
-    resumes = resume['resume_text']
-    job = resume.get('job', '')
-    path=resume['picture_path']
-    prompt_template = """
-你现在是一位拥有15年经验的顶尖科技公司（如 Google, Amazon, Meta）的资深技术招聘官，同时也是一位专业的简历优化专家。你非常清楚什么样的简历能在海量简历中脱颖而出，尤其擅长将工程师的技术能力和项目价值通过精炼的语言展现出来。
-我是一位技术从业者，正在寻求职业发展机会,我希望你能基于我提供的原始简历，对内容进行深度优化，使其更具吸引力和专业性，同时突出我的核心竞争力。
-# Task: 优化简历内容
-你的核心任务是分析并优化我提供的简历内容。请严格按照以下要求执行：
-1.  **优化【工作经历】和【项目经验】的描述结构**:
-    *   将每一条经历都严格按照 **STAR 法则 (Situation, Task, Action, Result)** 的逻辑进行重写。
-    *   **背景**: 简要描述项目或工作的背景。
-    *   **任务**: 说明你在此情境下需要完成的具体任务或面临的挑战。
-    *   **行动**: 详细阐述你为完成任务所采取的具体行动、使用的技术和解决方法。这是描述的重点。
-    *   **结果**: 使用**量化**的、有说服力的数据来展示你的行动所带来的成果。例如：“将页面加载速度提升了30%”、“错误率降低了50%”、“新用户转化率提高了15%”等。
-
-2.  **优化内容和措辞**:
-    *   使用强有力的**行为动词** (Action Verbs) 开头，例如：**主导 (Led)**、**实现 (Implemented)**、**优化 (Optimized)**、**构建 (Architected/Built)**、**重构 (Refactored)**、**提升 (Increased/Improved)** 等。
-    *   如果原始信息中缺少具体的量化结果，请根据项目内容，以 `[建议补充：具体提升了多少百分比？或 节省了多少时间？]` 的形式，在相应位置提出补充建议，以引导我思考并完善。
-
-3.  **优化和补充【技术栈】**:
-    *   根据【项目经验】中的描述，为每一个项目精准、全面地提炼、补充和优化其对应的【技术栈】。
-    *   技术栈的书写应清晰、有条理，例如：`static: React, TypeScript, Webpack | 后端: Node.js, Express, MySQL | 工具: Git, Docker`。
-
-# Constraints: 必须遵守的规则
-
-1.  **【绝对禁止】** 修改简历中的任何部分标题，例如 "教育背景"、"工作经历"、"项目经验"、"专业技能" 等。
-2.  **【绝对禁止】** 改变简历中各个部分的先后顺序。
-3.  **【核心原则】** 你的工作**仅限于**优化每个标题下的具体内容描述。保持原始的结构和标题不变。
-4.  保持简历的原始语言（例如，如果我提供的是中文简历，优化后也必须是中文）。
-5.  输出的最终结果应该是**一份完整且可以直接使用**的简历，而不是仅仅列出修改建议。
-
-# Output Format: 输出格式要求
-结构清晰: 最终输出的必须是一份完整且可以直接使用的简历文档。
-板块分隔: 在每个一级标题（如【教育背景】、【工作经历】、【项目经验】等）的正下方，都必须添加一条横线 (---) 作为分隔符，以增强简历的结构感和可读性。
-纯净输出: 除了简历内容本身，绝对不要包含任何额外的解释、问候或说明文字，如“优化后的简历：”或“以下是为您优化的简历：”等。直接开始输出简历内容。
-用户输入：
-目标岗位
-{job}
-原始简历
-{resume}
-优化后的简历：
-"""
-    prompt = ChatPromptTemplate.from_template(prompt_template)
-    chain = prompt | llm_google | StrOutputParser()
-    full_text = chain.invoke({'job': job, 'resume': resumes})
-    if path=='':
-        resume_path = generate_resume_pdf(content=full_text)
-    else:
-        resume_path = generate_resume_pdf(content=full_text,image_path=path)
-    return {'optimize_resume_path': resume_path}
-
-
-def load_chinese_stopwords(filepath):
-    """加载中文停用词"""
-    if not os.path.exists(filepath):
-        print(f"错误: 停用词文件 '{filepath}' 不存在。请检查路径是否正确。")
-        return []
-    try:
-        with open(filepath, 'r', encoding='utf-8') as f:
-            stopwords = [line.strip() for line in f if line.strip()]
-        print(f"成功加载 {len(stopwords)} 个中文停用词从 '{filepath}'。")
-        return stopwords
-    except Exception as e:
-        print(f"加载停用词文件时发生错误: {e}")
-        return []
-
-def extract_keybert_keywords(text, kw_model, stopwords_list, top_n=10, diversity=0.5):
-    segmented_text = " ".join(jieba.lcut(text))
-    keywords_with_scores = kw_model.extract_keywords(
-        segmented_text,
-        keyphrase_ngram_range=(3, 7),  # 提取3到7个词的短语
-        stop_words=stopwords_list,  # 传入中文停用词列表
-        top_n=top_n,  # 提取前N个关键词
-        use_mmr=True,  # 使用最大边际相关性，增加关键词多样性
-        diversity=diversity  # 多样性参数
-    )
-    return [kw[0] for kw in keywords_with_scores]
-
-
-def analyze_resume(resume: Resume) -> dict:
+        searches = GoogleSerperAPIWrapper()
+        return searches.run(query)
+def analyze_resume(resume: MainState) -> dict:
     """
     分析简历PDF文件，提取结构化信息并返回TextNode列表和Resume字典
     参数:
@@ -158,7 +63,6 @@ def analyze_resume(resume: Resume) -> dict:
         "awards": "",
         "school_work":""
     }
-
     loader = PDFReader()
     file_path = Path(path)
     documents = loader.load_data(file=file_path)
@@ -175,7 +79,7 @@ def analyze_resume(resume: Resume) -> dict:
                 text=full_text.strip(),
                 metadata={**base_metadata, "header": "文档全文"}
             ))
-        return resume_data
+        return {'resume':resume_data}
 
     # 处理标题前的内容
     first_header_start = header_matches[0].start()
@@ -209,17 +113,57 @@ def analyze_resume(resume: Resume) -> dict:
     # 清理多余的空格和换行
     for key in resume_data.keys():
         resume_data[key] = resume_data[key].strip()
-    resume_data['job']=job
-    print('简历解析完成')
-    return resume_data
+    return {'resume': resume_data,'job':job}
 
 
-async def get_resume_key_score(resume: Resume) -> dict:
+async def get_resume_key_score(resume: ResumeEvaluateInPut) -> dict:
     """"将用户简历和应聘岗位进行技能匹配度分析并返回匹配分数（满分100分）"""
+    resume=resume.get('resume',{})
+    os.environ["SERPER_API_KEY"] = api_key.search_api_key
+    encode_path = r""  # sentenc-transformer 模型  我使用的是 shibing624text2vec-base-chinese
+    STOPWORDS_FILE_PATH = r"stopwords-mast/stopwords-master/scu_stopwords.txt"
+    model_for_keybert = SentenceTransformer(
+        encode_path,
+        backend="onnx",
+        device="cuda",
+        model_kwargs={
+            "file_name": "model_O4.onnx",
+            "provider": "CUDAExecutionProvider"
+        }
+    )
+    kw_model = KeyBERT(model=model_for_keybert)
+
+
+
+    def load_chinese_stopwords(filepath):
+        """加载中文停用词"""
+        if not os.path.exists(filepath):
+            print(f"错误: 停用词文件 '{filepath}' 不存在。请检查路径是否正确。")
+            return []
+        try:
+            with open(filepath, 'r', encoding='utf-8') as f:
+                stopwords = [line.strip() for line in f if line.strip()]
+            print(f"成功加载 {len(stopwords)} 个中文停用词从 '{filepath}'。")
+            return stopwords
+        except Exception as e:
+            print(f"加载停用词文件时发生错误: {e}")
+            return []
+
+    def extract_keybert_keywords(text, kw_model, stopwords_list, top_n=10, diversity=0.5):
+        segmented_text = " ".join(jieba.lcut(text))
+        keywords_with_scores = kw_model.extract_keywords(
+            segmented_text,
+            keyphrase_ngram_range=(3, 7),  # 提取3到7个词的短语
+            stop_words=stopwords_list,  # 传入中文停用词列表
+            top_n=top_n,  # 提取前N个关键词
+            use_mmr=True,  # 使用最大边际相关性，增加关键词多样性
+            diversity=diversity  # 多样性参数
+        )
+        return [kw[0] for kw in keywords_with_scores]
     print("正在进行简历技术栈匹配分析")
     resume_text = resume.get('program', '') + '\n' + resume.get('work', '') + '\n' + resume.get('technology_stack', '')
     job_description_text = resume.get('job', '')
-    prompt_template = """
+    system_prompt_template = """
 # 角色
 你是一个专业的简历评估专家和职业发展顾问。你的任务是通过深度分析岗位技能需求，对用户简历的技术栈进行一次**结构化、可视化、极具洞察力**的专业评价，并提供 actionable 的建议。
 
@@ -281,10 +225,10 @@ async def get_resume_key_score(resume: Resume) -> dict:
 ## 6. 总结
 [重申核心观点，并给出最终的综合评价，总结候选人在此岗位上的潜力和挑战。]
 ---
-**用户输入:**
-{messages}"""
-    prompt = ChatPromptTemplate.from_template(prompt_template)
+"""
+    prompt = SystemMessagePromptTemplate.from_template(system_prompt_template)
     chain = prompt | llm_google | StrOutputParser()
+    chain=chain.with_config({'callbacks':llm_callback_handler})
     response = await chain.ainvoke(
         {'messages': [HumanMessage(content=resume_text + '\ni应聘岗位信息：\n' + job_description_text)]})
     print(response)
@@ -345,8 +289,9 @@ async def get_resume_key_score(resume: Resume) -> dict:
     return {'technology_stack_evaluate': response, 'technology_stack_score': sum_score * 100}
 
 
-async def get_school_score(resum: Resume) -> dict:
+async def get_school_score(resume: ResumeEvaluateInPut) -> dict:
     """获取院校评分"""
+    resum= resume.get('resume', {})
     print("正在进行院校背景分析")
     school = resum.get('school', '')
     job = resum.get('job', '')
@@ -364,6 +309,7 @@ async def get_school_score(resum: Resume) -> dict:
     注意严格按照该格式输出
     """
     agent = create_react_agent(llm, [web_search], prompt=prompt_template)
+    agent= agent.with_config({'callbacks': llm_callback_handler})
     response = await agent.ainvoke({'messages': [HumanMessage(content=contents)]})
     try:
         ans=response['messages'][-1]
@@ -378,12 +324,13 @@ async def get_school_score(resum: Resume) -> dict:
         return {'school_score': 60}
 
 
-async def get_potential_score(resume: Resume) -> dict:
+async def get_potential_score(resume: ResumeEvaluateInPut) -> dict:
     """获取未来潜力评分"""
     print("正在进行未来潜力分析")
+    resume = resume.get('resume', {})
     text = resume.get('resume_text', '')
     job = resume.get('job', '')
-    prompt_template = """
+    system_prompt_template = """
         你是一名资深的人才分析师和潜力评估专家。你的核心任务是基于提供的简历信息和岗位描述，
         对候选人在该岗位上的胜任潜力进行全面、深入且富有洞察力的评估。你的分析必须超越简单的关键词匹配，充分挖掘即使在简历中没有明确提及，
         但通过其他经历、成就、项目、教育背景或个人特质能够侧面证明其在该岗位上具备强大胜任潜力的方面。
@@ -408,15 +355,22 @@ async def get_potential_score(resume: Resume) -> dict:
     以json的格式输出 该json中存在的key为 "potential_score" 
     potential_score 对应字段类型为 float 表示学历背景与岗位要求的匹配得分（满分100 80-100 表示潜力值很大，60-80 表示具有一定潜力。60以下 表示看不出用户的潜力所在）
     注意严格按照该格式输出
-
-    用户输入：
-    简历信息：
-    {resume}
-    职位信息
-    {job}
         """
-    prompt = ChatPromptTemplate.from_template(prompt_template)
+    system_prompt = SystemMessagePromptTemplate.from_template(system_prompt_template)
+    prompt=ChatPromptTemplate.from_messages(
+        [
+            system_prompt,
+            ('user',"""      
+            用户输入：
+            简历信息：
+            {resume}
+            职位信息
+            {job}
+            """)
+        ]
+    )
     chain = prompt | llm_google | JsonOutputParser()
+    chain = chain.with_config({'callbacks': llm_callback_handler})
     ans = await chain.ainvoke({'resume': text, 'job': job})
     print(ans)
     if isinstance(ans, dict) :
@@ -426,12 +380,13 @@ async def get_potential_score(resume: Resume) -> dict:
         return {"potential_score": 60}
 
 
-async def get_program_struct_score(resume: Resume) -> dict:
+async def get_program_struct_score(resume: ResumeEvaluateInPut) -> dict:
     "将用户简历中的项目和工作经历描述进行书写结构化程度进行分析并返回结构化分数分数（满分100分）"
     print('正在进行简历结构化分析')
+    resume = resume.get('resume', {})
     resumes = resume.get('program', '') + '\n' + resume.get('work', '')
     if resumes != '':
-        prompt_template = """
+        system_prompt_template = """
                 你是一个专业的HR招聘专家，你的任务是针对用户简历中的项目经历（若存在）以及工作经历（若存在）进行结构方面的**深度评价与打分**。你的评价将基于STAR法则，并力求提供**具体、可操作、有洞察力**的改进建议。
                 ---
                 **评价核心法则：STAR法则（深度解读与评估维度）**
@@ -484,15 +439,23 @@ async def get_program_struct_score(resume: Resume) -> dict:
 
                 #### 2. 总体评价与核心建议
                 [在表格下方，对该段经历进行简要的总体评价。指出最主要的亮点和最需要优先改进的部分。例如：整体来看，该项目经历展现了你的技术执行力，但价值呈现（Result）和思考深度（Action）是当前的主要短板。建议你优先将成果量化，并补充技术决策的思考过程。]
-                    项目经历：
-                    {program}
                     输出格式：
                     要求以json的格式输出 使用的键名为 "resume_struct_evaluate"," resume_struct_score "
                     resume_struct_evaluate 字段对应类型为str 表示为对简历工作或者项目经历的评价
                     resume_struct_score 字段类型为float 表示对历工作或者项目经历书写的总体评分（满分100,80-100 表示书写的结构完全符合STAR结构，只是可能有一点瑕疵。 60-80 表示基本符合STAR结构，但是四元素中的某几部分不符合。60以下 表示基本不符合STAR结构，结构混乱，属于不及格
                     """
-        prompt = ChatPromptTemplate.from_template(prompt_template)
+        system_prompt = SystemMessagePromptTemplate.from_template(system_prompt_template)
+        prompt=ChatPromptTemplate.from_messages(
+            [
+                system_prompt,
+                ('user',"""
+                    项目经历：
+                    {program}
+                """)
+            ]
+        )
         chain = prompt | llm_qwen | JsonOutputParser()
+        chain = chain.with_config({'callbacks': llm_callback_handler})
         response=await chain.ainvoke({'program': resumes})
         print(response)
         if isinstance(response, dict) :
@@ -503,8 +466,9 @@ async def get_program_struct_score(resume: Resume) -> dict:
             return {'resume_struct_evaluate': '', 'resume_struct_score': 60.0}
 
 
-async def get_experience_match_score(resume: Resume) -> dict:
+async def get_experience_match_score(resume: ResumeEvaluateInPut) -> dict:
     print("正在进行简历经验匹配分析")
+    resume = resume.get('resume', {})
     resumes = resume.get('program', '') + resume.get('work', '') + resume.get('awards', '')
     job = resume.get('job', '')
     prompt_template = """
@@ -566,6 +530,7 @@ async def get_experience_match_score(resume: Resume) -> dict:
     *   评分标准：80-100分 (高度匹配), 60-80分 (基本匹配), 60分以下 (匹配度较低)。
     """
     agent = create_react_agent(llm, [web_search], prompt=prompt_template)
+    agent= agent.with_config({'callbacks': llm_callback_handler})
     response = await agent.ainvoke({'messages':resumes+'应聘岗位信息：\n'+ job})
     try:
         ans=response['messages'][-1]
@@ -579,7 +544,7 @@ async def get_experience_match_score(resume: Resume) -> dict:
         print(e)
 
 
-def create_resume_radar(resume: Resume) -> dict:
+def create_resume_radar(resume: ResumeEvaluateState) -> dict:
     """
     创建简历评价雷达图（五维度版）
     """
@@ -646,25 +611,59 @@ def create_resume_radar(resume: Resume) -> dict:
     plt.close()
     print(f"五维评价雷达图已保存至: {save_path}")
     return {'resume_radar_path': save_path}
+def rounter(state:ResumeEvaluateState):
+    resume_struct_score = state['resume_struct_score']
+    experience_score = state['experience_score']
+    school_score = state['school_score']
+    potential_score = state['potential_score']
+    technology_stack_score = state['technology_stack_score']
+    if school_score < 60:
+        print('很抱歉的通知您，您并未通过我公司的简历筛选。')
+        return Command(
+            goto=END,
+            update={'page':False}
+        )
+    final_score = resume_struct_score * 0.1 + experience_score * 0.35 + school_score * 0.15 + potential_score * 0.1 + technology_stack_score * 0.3
+    print(final_score)
+    if final_score < 75:
+        print('很抱歉的通知您，您并未通过我公司的简历筛选。')
+        return Command(
+            goto=END,
+            update={'page':False}
+        )
+    else:
+        print('恭喜你成功通过简历初筛,即将进入算法笔试测试')
+        return Command(
+            goto=END,
+            update={'page':True}
+
+        )
+def create_resume_evaluate_agent():
+    agent=StateGraph(ResumeEvaluateState,input_schema=ResumeEvaluateInPut)
+    agent.add_node('Start',lambda x:{})
+    agent.add_node("get_potential_score", get_potential_score)
+    agent.add_node("get_school_score", get_school_score)
+    agent.add_node("get_resume_key_score", get_resume_key_score)
+    agent.add_node("get_experience_match_score", get_experience_match_score)
+    agent.add_node("get_program_struct_score", get_program_struct_score)
+    agent.add_node('create_radar', create_resume_radar)
+    agent.add_node('create_resume_assessment_report', create_resume_assessment_report)
+    parallel_nodes = [
+        "get_potential_score",
+        "get_school_score",
+        "get_resume_key_score",
+        "get_experience_match_score",
+        "get_program_struct_score",
+    ]
+    agent.set_entry_point('Start')
+    for node in parallel_nodes:
+        agent.add_edge('Start',node)
+        agent.add_edge(node,'create_radar')
+    agent.add_edge('create_radar','create_resume_assessment_report')
+    agent.add_conditional_edges('create_resume_assessment_report',rounter)
+    agent=agent.compile()
+    return agent
 
 
-async def get_resume_five_dimension(resume: Resume) -> dict:
-    print('正在进行简历五维度分析')
-    result = await asyncio.gather(
-        get_potential_score(resume),
-        get_school_score(resume),
-        get_resume_key_score(resume),
-        get_experience_match_score(resume),
-        get_program_struct_score(resume)
-    )
-    print(result)
-    answer = {}
-    for r in result:
-        try:
-            for key, value in r.items():
-                answer[key] = value
-        except Exception as e:
-            print(e)
-    return answer
-
-
+if __name__ == '__main__':
+    create_resume_evaluate_agent()

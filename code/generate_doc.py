@@ -1,7 +1,7 @@
 import markdown
 from weasyprint import HTML
 import pathlib
-from base import Resume
+from state import ResumeEvaluateState
 import os
 import re
 from docx import Document as DocxDocument
@@ -302,7 +302,7 @@ def parse_markdown_to_docx(document, content: str):
 
         i += 1
 
-def create_resume_assessment_report(resume: Resume) -> dict:
+def create_resume_assessment_report(resume: ResumeEvaluateState) -> dict:
     """
     根据简历内容生成一个包含Markdown格式文本和图片的、经过美化的Word评估报告。
 
@@ -320,7 +320,7 @@ def create_resume_assessment_report(resume: Resume) -> dict:
     ]
     content = '\n\n'.join(content_parts)
     image_path = resume.get('resume_radar_path', '雷达图/five_dimension_radar.png')
-    logo_path = 'logo.png' # <--- !!! 请替换为您的公司Logo路径
+    logo_path = '../图片/logo.png'  # <--- !!! 请替换为您的公司Logo路径
     company_name = "面面俱到"  # <--- !!! 请替换为您的公司名称
     output_dir = "简历评估"
     output_filename = os.path.join(output_dir, f"简历评估报告.docx")
@@ -467,7 +467,7 @@ def generate_resume_pdf(content: str, image_path: str = "简历照片/微信图�
         print(f"生成PDF时发生错误: {e}")
         print("请检查文件是否被其他程序占用，或检查文件夹权限。")
 
-def create_interview_question_analyse_report(resume: Resume) -> dict:
+def create_interview_question_analyse_report(resume: ResumeEvaluateState) -> dict:
     """
     根据简历内容生成一个包含Markdown格式文本和图片的、经过美化的Word评估报告。
 
@@ -491,7 +491,7 @@ def create_interview_question_analyse_report(resume: Resume) -> dict:
         )
         i+=1
     content = '\n\n'.join(content_parts)
-    logo_path = 'logo.png' # <--- !!! 请替换为您的公司Logo路径
+    logo_path = '../图片/logo.png'  # <--- !!! 请替换为您的公司Logo路径
     company_name = "面面俱到"  # <--- !!! 请替换为您的公司名称
     output_dir = "问题解析"
     output_filename = os.path.join(output_dir, f"问题详解报告.docx")

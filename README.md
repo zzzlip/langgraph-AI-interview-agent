@@ -168,14 +168,14 @@
 ├── code/                       # 核心代码目录
 │   ├── callbacks.py            # LangGraph回调机制实现
 │   ├── state.py                # 系统状态定义（TypedDict和Pydantic模型）
-│   ├── resume_agent.py         # 简历评估主流程智能体
-│   ├── resume_analyse.py       # 简历分析与评估核心逻辑
+│   ├── Main_agent.py         # 主图智能体架构
+│   ├── resume_analyse.py       # 简历分析与评估核心智能体
 │   ├── resume_optimize.py      # 简历优化模块
 │   ├── interview_agent.py      # 面试模拟智能体
 │   ├── generate_interview_question.py  # 面试问题生成逻辑
 │   ├── generate_question_answer.py     # 面试问题标准答案生成
 │   ├── generate_question_eval.py       # 面试回答评估逻辑
-│   ├── code_test.py            # 算法测试模块
+│   ├── code_test.py            # 算法测试智能体
 │   ├── rag.py                  # RAG检索增强实现
 │   ├── generate_doc.py         # 文档生成（评估报告、面试分析报告）
 │   ├── do_record_video.py      # 视频录制功能

@@ -250,9 +250,3 @@ The system uses fine-grained state definitions based on TypedDict and Pydantic, 
     python code/main.py
     ```
 
-## Usage Instructions
-
-- **Resume Evaluation**: Run the `main1()` function in `main.py`.
-- **Resume Optimization**: Run the `main2()` function in `main.py`.
-- **Interview Training**: Run the `main3()` function in `main.py`. You can adjust the `interview_question_num` parameter.
-- **Mock Interview (with Algorithm Test)**: Run the `main4()` function in `main.py`. You need to provide your Codeforces account handle.

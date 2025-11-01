@@ -5,14 +5,9 @@ from langgraph.graph import StateGraph
 from generate_doc import create_interview_question_analyse_report
 from state import InterviewState,InterviewOutPut
 from generate_interview_question import  get_question_num,generate_program_question,generate_business_question,generate_technology_question,generate_soft_power_question
-# from generate_question_eval import  get_answer_eval,get_user_question_answer,do_answer
+from generate_question_eval import  get_answer_eval,get_user_question_answer,do_answer
 
-def get_answer_eval():
-    return ''
-def get_user_question_answer():
-    return ''
-def do_answer():
-    return
+
 def create_interview_agent():
     graph=StateGraph(InterviewState,output_schema=InterviewOutPut)
     graph.add_node(get_question_num.__name__,get_question_num)

@@ -197,4 +197,4 @@ docker compose --env-file .env.example -f docker-compose.yml config
 - Worker 必须调用正式 AI Gateway、Codeforces、MinIO 等端口执行真实业务逻辑，不允许固定模板、伪造结果或旧原型逻辑代替。
 - `api_key`、`object_key`、原始 prompt、模型原始响应、完整回答转写不得进入公开响应、SSE、日志或测试快照。
 - `AI_WORKER_ENABLED_PROVIDERS` 启用的非 DeepSeek provider 必须配置对应环境凭证；DeepSeek 可由用户任务级配置提供。
-- `code/`、本地缓存、数据库文件、构建产物和历史文档不作为运行时依赖发布。
+- 历史原型代码、本地缓存、数据库文件、构建产物和历史文档不作为运行时依赖发布。

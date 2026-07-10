@@ -1,0 +1,151 @@
+name: ai-interview
+
+services:
+  mysql:
+    image: mysql:8
+    container_name: ai-interview-mysql
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-ai_interview}
+      MYSQL_USER: ${MYSQL_USER:-ai_interview_app}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:?required}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?required}
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./mysql/init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD:?required}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  redis:
+    image: redis:7
+    container_name: ai-interview-redis
+    command: ["redis-server", "--requirepass", "${REDIS_PASSWORD:?required}"]
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD:?required}", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: ai-interview-rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER:-ai_interview_rabbit}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS:?required}
+      RABBITMQ_DEFAULT_VHOST: ${RABBITMQ_DEFAULT_VHOST:-ai_interview}
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "check_port_connectivity"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  minio:
+    image: minio/minio:latest
+    container_name: ai-interview-minio
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-ai_interview_minio}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:?required}
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  java-platform:
+    build:
+      context: ..
+      dockerfile: java-platform/Dockerfile
+    container_name: ai-interview-java
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      AI_INTERVIEW_DB_URL: ${AI_INTERVIEW_DB_URL:?required}
+      AI_INTERVIEW_DB_USERNAME: ${AI_INTERVIEW_DB_USERNAME:?required}
+      AI_INTERVIEW_DB_PASSWORD: ${AI_INTERVIEW_DB_PASSWORD:?required}
+      AI_INTERVIEW_REDIS_HOST: ${AI_INTERVIEW_REDIS_HOST:?required}
+      AI_INTERVIEW_REDIS_PORT: ${AI_INTERVIEW_REDIS_PORT:-6379}
+      AI_INTERVIEW_REDIS_PASSWORD: ${AI_INTERVIEW_REDIS_PASSWORD:?required}
+      AI_INTERVIEW_RABBITMQ_HOST: ${AI_INTERVIEW_RABBITMQ_HOST:?required}
+      AI_INTERVIEW_RABBITMQ_PORT: ${AI_INTERVIEW_RABBITMQ_PORT:-5672}
+      AI_INTERVIEW_RABBITMQ_USERNAME: ${AI_INTERVIEW_RABBITMQ_USERNAME:?required}
+      AI_INTERVIEW_RABBITMQ_PASSWORD: ${AI_INTERVIEW_RABBITMQ_PASSWORD:?required}
+      AI_INTERVIEW_RABBITMQ_VHOST: ${AI_INTERVIEW_RABBITMQ_VHOST:?required}
+      AI_INTERVIEW_MINIO_ENDPOINT: ${AI_INTERVIEW_MINIO_ENDPOINT:?required}
+      AI_INTERVIEW_MINIO_ACCESS_KEY: ${AI_INTERVIEW_MINIO_ACCESS_KEY:?required}
+      AI_INTERVIEW_MINIO_SECRET_KEY: ${AI_INTERVIEW_MINIO_SECRET_KEY:?required}
+      AI_INTERVIEW_MINIO_BUCKET: ${AI_INTERVIEW_MINIO_BUCKET:-ai-interview-files}
+    ports:
+      - "8080:8080"
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  worker:
+    build:
+      context: ../worker
+      dockerfile: Dockerfile
+    container_name: ai-interview-worker
+    environment:
+      AI_WORKER_ENV: docker
+      AI_WORKER_LOG_LEVEL: INFO
+      AI_WORKER_RABBITMQ_URL: amqp://${RABBITMQ_DEFAULT_USER:-ai_interview_rabbit}:${RABBITMQ_DEFAULT_PASS:?required}@rabbitmq:5672/${RABBITMQ_DEFAULT_VHOST:-ai_interview}
+      AI_WORKER_RABBITMQ_VHOST: ${RABBITMQ_DEFAULT_VHOST:-ai_interview}
+      AI_WORKER_RABBITMQ_USERNAME: ${RABBITMQ_DEFAULT_USER:-ai_interview_rabbit}
+      AI_WORKER_RABBITMQ_PASSWORD: ${RABBITMQ_DEFAULT_PASS:?required}
+      AI_WORKER_MINIO_ENDPOINT: http://minio:9000
+      AI_WORKER_MINIO_ACCESS_KEY: ${MINIO_ROOT_USER:-ai_interview_minio}
+      AI_WORKER_MINIO_SECRET_KEY: ${MINIO_ROOT_PASSWORD:?required}
+      AI_WORKER_MINIO_BUCKET: ${AI_INTERVIEW_MINIO_BUCKET:-ai-interview-files}
+      AI_WORKER_SQLITE_PATH: /app/.data/processed_commands.sqlite
+      AI_WORKER_ENABLED_PROVIDERS: ${AI_WORKER_ENABLED_PROVIDERS:-deepseek,dashscope}
+      AI_WORKER_DEEPSEEK_API_KEY: ${AI_WORKER_DEEPSEEK_API_KEY:-}
+      AI_WORKER_DASHSCOPE_API_KEY: ${AI_WORKER_DASHSCOPE_API_KEY:-}
+      AI_WORKER_SERPER_API_KEY: ${AI_WORKER_SERPER_API_KEY:-}
+    volumes:
+      - worker_data:/app/.data
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-m", "ai_interview_worker.interface.cli", "health"]
+      interval: 10s
+      timeout: 30s
+      retries: 3
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
+  minio_data:
+  worker_data:

@@ -1,0 +1,92 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ai-interview-worker"
+version = "0.1.0"
+description = "AI Interview Python Worker - LangGraph AI 执行基座"
+requires-python = ">=3.10"
+
+[tool.mypy]
+strict = true
+python_version = "3.10"
+exclude = ["tests/", "legacy_adapter/"]
+
+[[tool.mypy.overrides]]
+module = ["pika", "pika.*", "dashscope", "dashscope.*"]
+ignore_missing_imports = true
+
+[tool.ruff]
+target-version = "py310"
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W", "UP", "B", "SIM"]
+ignore = []
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+pythonpath = ["src"]
+
+[tool.importlinter]
+root_packages = ["ai_interview_worker"]
+include_external_packages = true
+
+[[tool.importlinter.contracts]]
+name = "Domain layer must not depend on application"
+type = "forbidden"
+source_modules = ["ai_interview_worker.domain"]
+forbidden_modules = ["ai_interview_worker.application"]
+
+[[tool.importlinter.contracts]]
+name = "Domain layer must not depend on infrastructure"
+type = "forbidden"
+source_modules = ["ai_interview_worker.domain"]
+forbidden_modules = ["ai_interview_worker.infrastructure"]
+
+[[tool.importlinter.contracts]]
+name = "Domain layer must not depend on interface"
+type = "forbidden"
+source_modules = ["ai_interview_worker.domain"]
+forbidden_modules = ["ai_interview_worker.interface"]
+
+[[tool.importlinter.contracts]]
+name = "Application layer must not depend on infrastructure"
+type = "forbidden"
+source_modules = ["ai_interview_worker.application"]
+forbidden_modules = ["ai_interview_worker.infrastructure"]
+
+[[tool.importlinter.contracts]]
+name = "Application layer must not depend on interface"
+type = "forbidden"
+source_modules = ["ai_interview_worker.application"]
+forbidden_modules = ["ai_interview_worker.interface"]
+
+[[tool.importlinter.contracts]]
+name = "Infrastructure must not depend on interface"
+type = "forbidden"
+source_modules = ["ai_interview_worker.infrastructure"]
+forbidden_modules = ["ai_interview_worker.interface"]
+
+[[tool.importlinter.contracts]]
+name = "Domain must not import third-party SDKs"
+type = "forbidden"
+source_modules = ["ai_interview_worker.domain"]
+forbidden_modules = ["pika", "minio", "requests", "openai", "dashscope"]
+
+[[tool.importlinter.contracts]]
+name = "Application must not import third-party SDKs"
+type = "forbidden"
+source_modules = ["ai_interview_worker.application"]
+forbidden_modules = ["pika", "minio", "openai", "dashscope", "requests", "httpx"]
+
+[[tool.importlinter.contracts]]
+name = "Interface must not import third-party SDKs"
+type = "forbidden"
+source_modules = ["ai_interview_worker.interface"]
+forbidden_modules = ["minio", "openai", "dashscope"]

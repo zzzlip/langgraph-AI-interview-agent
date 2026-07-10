@@ -1,0 +1,8 @@
+# 测试 profile
+spring:
+  flyway:
+    enabled: false
+
+logging:
+  level:
+    com.aiinterview: DEBUG

@@ -1,0 +1,8 @@
+# 本地开发 profile
+spring:
+  flyway:
+    enabled: true
+
+logging:
+  level:
+    com.aiinterview: DEBUG

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 模拟面试平台</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="app" class="app-shell">
+        <header class="app-header">
+            <a class="brand" href="#/" aria-label="AI 模拟面试平台首页">
+                <span class="brand-mark" aria-hidden="true">AI</span>
+                <span>AI 模拟面试平台</span>
+            </a>
+            <nav class="app-nav" role="navigation" aria-label="主导航">
+                <a href="#/tasks" data-nav-link>任务中心</a>
+                <a href="#/files" data-nav-link>文件管理</a>
+                <a href="#/login" data-nav-link data-auth-anon>登录</a>
+            </nav>
+            <div id="auth-status" class="auth-status" aria-live="polite"></div>
+        </header>
+
+        <aside class="side-nav" aria-label="业务导航">
+            <a href="#/resume-evaluation" data-nav-link>简历评估</a>
+            <a href="#/resume-optimization" data-nav-link>简历优化</a>
+            <a href="#/algorithm-test" data-nav-link>算法测试</a>
+            <a href="#/mock-interview" data-nav-link>模拟面试</a>
+            <a href="#/llm-config" data-nav-link>LLM配置</a>
+            <a href="#/admin/failures" data-nav-link data-admin-link hidden>失败排查</a>
+        </aside>
+
+        <main id="route-view" class="route-view" data-route-view tabindex="-1" aria-live="polite">
+            <section class="panel">
+                <p class="eyebrow">工作台</p>
+                <h1>AI 模拟面试平台</h1>
+                <p>登录后可创建任务、查看进度、下载报告，并在任务详情中接收实时事件。</p>
+                <div class="action-row">
+                    <a class="primary-action" href="#/login">登录</a>
+                    <a class="secondary-action" href="#/register">注册账号</a>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="js/csrf.js"></script>
+    <script src="js/idempotency.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/state-mapping.js"></script>
+    <script src="js/llm-config-ui.js"></script>
+    <script src="js/file-ui.js"></script>
+    <script src="js/sse-client.js"></script>
+    <script src="js/task-ui.js"></script>
+    <script src="js/validators.js"></script>
+    <script src="js/business-renderers.js"></script>
+    <script src="js/mock-interview-ui.js"></script>
+    <script src="js/admin-ui.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,653 @@
+:root {
+    color-scheme: light;
+    --bg: #f6f7f9;
+    --surface: #ffffff;
+    --surface-subtle: #eef2f6;
+    --text: #1f2933;
+    --muted: #667085;
+    --line: #d9e0e8;
+    --accent: #0f766e;
+    --accent-strong: #0b5f59;
+    --focus: #2563eb;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.app-shell {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 248px minmax(0, 1fr);
+    grid-template-rows: 64px minmax(0, 1fr);
+}
+
+.app-header {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 0 24px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--line);
+}
+
+.brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+}
+
+.brand-mark {
+    display: inline-grid;
+    width: 36px;
+    height: 36px;
+    place-items: center;
+    border-radius: 8px;
+    background: var(--accent);
+    color: #ffffff;
+    font-size: 13px;
+}
+
+.app-nav,
+.side-nav,
+.auth-status {
+    display: flex;
+    gap: 8px;
+}
+
+.app-nav a,
+.side-nav a {
+    border-radius: 6px;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.app-nav a {
+    padding: 8px 10px;
+}
+
+.auth-status {
+    align-items: center;
+    justify-content: flex-end;
+    min-width: 150px;
+}
+
+.auth-status a,
+.auth-status button {
+    min-height: 36px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: var(--surface);
+    color: var(--text);
+    font: inherit;
+    font-size: 14px;
+    padding: 7px 10px;
+}
+
+.auth-status button {
+    cursor: pointer;
+}
+
+.session-user {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.side-nav {
+    flex-direction: column;
+    padding: 20px 16px;
+    border-right: 1px solid var(--line);
+    background: var(--surface);
+}
+
+.side-nav a {
+    padding: 10px 12px;
+}
+
+.app-nav a:hover,
+.side-nav a:hover,
+[aria-current="true"] {
+    background: var(--surface-subtle);
+    color: var(--text);
+}
+
+.route-view {
+    min-width: 0;
+    padding: 32px;
+    outline: none;
+}
+
+.panel {
+    max-width: 880px;
+    padding: 32px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+}
+
+.eyebrow {
+    margin: 0 0 8px;
+    color: var(--accent-strong);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+h1 {
+    margin: 0;
+    font-size: 32px;
+    line-height: 1.2;
+}
+
+p {
+    max-width: 680px;
+    color: var(--muted);
+    line-height: 1.7;
+}
+
+.action-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.primary-action,
+.secondary-action {
+    display: inline-flex;
+    min-height: 40px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    padding: 9px 14px;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.primary-action {
+    background: var(--accent);
+    color: #ffffff;
+}
+
+.secondary-action {
+    border: 1px solid var(--line);
+    background: var(--surface);
+}
+
+.auth-form {
+    display: grid;
+    gap: 14px;
+    max-width: 360px;
+    margin-top: 24px;
+}
+
+.auth-form label {
+    display: grid;
+    gap: 6px;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.auth-form input {
+    min-height: 40px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 8px 10px;
+    color: var(--text);
+    font: inherit;
+}
+
+.auth-form button {
+    min-height: 40px;
+    border: 0;
+    border-radius: 6px;
+    background: var(--accent);
+    color: #ffffff;
+    cursor: pointer;
+    font: inherit;
+    font-weight: 700;
+}
+
+.auth-form button:disabled {
+    cursor: progress;
+    opacity: 0.7;
+}
+
+.form-feedback {
+    min-height: 24px;
+    color: var(--accent-strong);
+}
+
+.filter-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 24px 0;
+}
+
+.filter-form label {
+    display: grid;
+    gap: 6px;
+    min-width: 180px;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.filter-form select,
+.filter-form button {
+    min-height: 40px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: var(--surface);
+    color: var(--text);
+    font: inherit;
+    padding: 7px 10px;
+}
+
+.filter-form button {
+    align-self: end;
+    background: var(--accent);
+    color: #ffffff;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.task-list {
+    display: grid;
+    gap: 10px;
+}
+
+.task-row {
+    display: block;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 12px;
+    background: var(--surface);
+}
+
+.detail-grid {
+    display: grid;
+    grid-template-columns: minmax(120px, 180px) minmax(0, 1fr);
+    gap: 10px 16px;
+}
+
+.detail-grid dt {
+    color: var(--muted);
+}
+
+.detail-grid dd {
+    margin: 0;
+    overflow-wrap: anywhere;
+}
+
+.timeline {
+    display: grid;
+    gap: 8px;
+    margin-top: 24px;
+    padding-left: 20px;
+}
+
+.recovering-banner {
+    border: 1px solid #f5c84c;
+    border-radius: 6px;
+    background: #fff8df;
+    color: #7a5b00;
+    padding: 10px 12px;
+}
+
+/* ============================================================
+   文件管理
+   ============================================================ */
+.upload-section {
+    margin-top: 24px;
+    padding: 20px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--surface-subtle);
+}
+
+.upload-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: end;
+    margin-top: 12px;
+}
+
+.upload-form label {
+    display: grid;
+    gap: 6px;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.upload-form input[type="file"] {
+    font: inherit;
+    font-size: 14px;
+}
+
+.upload-form select {
+    min-height: 40px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: var(--surface);
+    color: var(--text);
+    font: inherit;
+    padding: 7px 10px;
+}
+
+.upload-form button {
+    min-height: 40px;
+    border: 0;
+    border-radius: 6px;
+    background: var(--accent);
+    color: #ffffff;
+    cursor: pointer;
+    font: inherit;
+    font-weight: 700;
+    padding: 9px 14px;
+}
+
+.file-list {
+    margin-top: 24px;
+    display: grid;
+    gap: 10px;
+}
+
+.file-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 12px;
+    background: var(--surface);
+}
+
+.file-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.file-name {
+    font-weight: 600;
+    color: var(--text);
+}
+
+.file-meta {
+    font-size: 13px;
+    color: var(--muted);
+}
+
+.file-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.file-action-btn {
+    min-height: 36px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: var(--surface);
+    color: var(--text);
+    cursor: pointer;
+    font: inherit;
+    font-size: 13px;
+    padding: 6px 10px;
+}
+
+.file-action-link {
+    font-size: 13px;
+    color: var(--accent);
+}
+
+/* ============================================================
+   文件选择器
+   ============================================================ */
+.file-selector-section {
+    margin-bottom: 16px;
+}
+
+.file-selector {
+    margin-top: 8px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 8px;
+    min-height: 40px;
+}
+
+.file-option {
+    padding: 8px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.file-option:hover {
+    background: var(--surface-subtle);
+}
+
+.file-option.selected {
+    background: var(--accent);
+    color: #ffffff;
+}
+
+/* ============================================================
+   业务表单
+   ============================================================ */
+.business-form {
+    display: grid;
+    gap: 16px;
+    max-width: 480px;
+    margin-top: 24px;
+}
+
+.form-field {
+    display: grid;
+    gap: 6px;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.form-field input,
+.form-field textarea,
+.form-field select {
+    min-height: 40px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 8px 10px;
+    color: var(--text);
+    font: inherit;
+}
+
+.form-field textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.business-form button.primary-action {
+    justify-self: start;
+}
+
+/* ============================================================
+   业务结果
+   ============================================================ */
+.result-panel {
+    margin-top: 24px;
+}
+
+.result-score {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--accent-strong);
+}
+
+.dimension-list {
+    display: grid;
+    gap: 8px;
+    padding-left: 20px;
+    color: var(--muted);
+}
+
+.problem-list,
+.check-result-list {
+    display: grid;
+    gap: 8px;
+    padding-left: 20px;
+    color: var(--muted);
+}
+
+.problem-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.problem-link,
+.file-action-link {
+    color: var(--accent);
+    font-size: 13px;
+}
+
+.user-action-hint {
+    margin-top: 12px;
+    color: var(--accent-strong);
+    font-weight: 600;
+}
+
+.result-conclusion {
+    margin-top: 12px;
+    font-weight: 600;
+    color: var(--text);
+}
+
+/* ============================================================
+   模拟面试
+   ============================================================ */
+.question-list {
+    display: grid;
+    gap: 8px;
+    padding-left: 20px;
+}
+
+.current-question {
+    color: var(--accent-strong);
+    font-weight: 600;
+}
+
+.current-question-panel {
+    margin-top: 20px;
+    padding: 16px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--surface-subtle);
+}
+
+.answer-history,
+.question-analysis-list,
+.improvement-list {
+    padding-left: 20px;
+    color: var(--muted);
+}
+
+.follow-up-content {
+    margin-top: 12px;
+    padding: 10px;
+    border-left: 3px solid var(--accent);
+    background: var(--surface);
+}
+
+.round-hint {
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.resubmit-banner {
+    margin-top: 12px;
+    border: 1px solid #f5c84c;
+    border-radius: 6px;
+    background: #fff8df;
+    color: #7a5b00;
+    padding: 10px 12px;
+}
+
+.answer-submission {
+    margin-top: 24px;
+    padding: 16px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+}
+
+.answer-submission .upload-input {
+    margin-top: 8px;
+}
+
+.manual-upload-hint {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+/* ============================================================
+   管理员视图
+   ============================================================ */
+.admin-section {
+    margin-top: 20px;
+}
+
+a:focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 2px;
+}
+
+@media (max-width: 760px) {
+    .app-shell {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto minmax(0, 1fr);
+    }
+
+    .app-header {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 16px;
+    }
+
+    .app-nav {
+        flex-wrap: wrap;
+    }
+
+    .side-nav {
+        grid-row: 2;
+        flex-direction: row;
+        overflow-x: auto;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+    }
+
+    .route-view {
+        padding: 20px;
+    }
+
+    .panel {
+        padding: 24px;
+    }
+
+    h1 {
+        font-size: 26px;
+    }
+}

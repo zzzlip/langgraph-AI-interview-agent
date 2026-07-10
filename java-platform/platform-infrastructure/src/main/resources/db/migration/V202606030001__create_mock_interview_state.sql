@@ -1,0 +1,21 @@
+CREATE TABLE IF NOT EXISTS mock_interview_state (
+  id VARCHAR(64) NOT NULL,
+  task_id VARCHAR(64) NOT NULL,
+  user_id VARCHAR(64) NOT NULL,
+  attempt_no INT NOT NULL,
+  current_question_id VARCHAR(64) NULL,
+  current_round_id VARCHAR(64) NULL,
+  waiting_input_type VARCHAR(32) NULL,
+  input_expired TINYINT(1) NOT NULL DEFAULT 0,
+  waiting_since DATETIME(6) NULL,
+  expires_at DATETIME(6) NULL,
+  state_payload JSON NOT NULL,
+  version BIGINT NOT NULL DEFAULT 0,
+  created_at DATETIME(6) NOT NULL,
+  updated_at DATETIME(6) NOT NULL,
+  PRIMARY KEY (id),
+  UNIQUE KEY uk_mock_interview_state_task_attempt (task_id, attempt_no),
+  KEY idx_mock_interview_state_user_task (user_id, task_id),
+  KEY idx_mock_interview_state_current_round (task_id, current_round_id),
+  KEY idx_mock_interview_state_waiting (waiting_since, expires_at)
+);

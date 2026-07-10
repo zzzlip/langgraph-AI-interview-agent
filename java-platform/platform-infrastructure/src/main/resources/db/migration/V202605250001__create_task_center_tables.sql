@@ -1,0 +1,86 @@
+-- spec03: 创建任务中心表
+CREATE TABLE `task` (
+    `id`                  VARCHAR(36)  NOT NULL COMMENT 'UUIDv7 任务 ID',
+    `user_id`             VARCHAR(36)  NOT NULL COMMENT '所属用户 ID',
+    `task_type`           VARCHAR(32)  NOT NULL COMMENT '任务类型',
+    `status`              VARCHAR(32)  NOT NULL COMMENT '任务主状态',
+    `stage`               VARCHAR(64)  DEFAULT NULL COMMENT '当前阶段',
+    `progress`            INT          DEFAULT NULL COMMENT '当前进度 0-100',
+    `input_summary`       JSON         NOT NULL COMMENT '输入摘要 JSON',
+    `result_reference_id` VARCHAR(36)  DEFAULT NULL COMMENT '结果引用 ID',
+    `current_attempt`     INT          NOT NULL DEFAULT 1 COMMENT '当前执行尝试',
+    `retry_count`         INT          NOT NULL DEFAULT 0 COMMENT '已重试次数',
+    `max_retry_count`     INT          NOT NULL DEFAULT 3 COMMENT '最大重试次数',
+    `retryable`           TINYINT(1)   NOT NULL DEFAULT 0 COMMENT '当前失败是否可重试',
+    `version`             BIGINT       NOT NULL DEFAULT 0 COMMENT '乐观锁版本',
+    `trace_id`            VARCHAR(64)  NOT NULL COMMENT '创建 trace',
+    `created_at`          DATETIME(3)  NOT NULL COMMENT '创建时间',
+    `updated_at`          DATETIME(3)  NOT NULL COMMENT '更新时间',
+    `completed_at`        DATETIME(3)  DEFAULT NULL COMMENT '完成时间',
+    `cancelled_at`        DATETIME(3)  DEFAULT NULL COMMENT '取消时间',
+    `last_failed_at`      DATETIME(3)  DEFAULT NULL COMMENT '最近失败时间',
+    PRIMARY KEY (`id`),
+    INDEX `idx_task_user_created_at` (`user_id`, `created_at`),
+    INDEX `idx_task_user_type_created_at` (`user_id`, `task_type`, `created_at`),
+    INDEX `idx_task_user_status_created_at` (`user_id`, `status`, `created_at`),
+    INDEX `idx_task_status_failed_at` (`status`, `last_failed_at`),
+    INDEX `idx_task_trace_id` (`trace_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='任务表';
+
+CREATE TABLE `task_attempt` (
+    `id`            VARCHAR(36)   NOT NULL COMMENT 'UUIDv7 主键',
+    `task_id`       VARCHAR(36)   NOT NULL COMMENT '任务 ID',
+    `attempt_no`    INT           NOT NULL COMMENT '执行尝试序号',
+    `status`        VARCHAR(32)   NOT NULL COMMENT 'attempt 状态',
+    `started_at`    DATETIME(3)   DEFAULT NULL COMMENT '开始时间',
+    `finished_at`   DATETIME(3)   DEFAULT NULL COMMENT '完成时间',
+    `failed_at`     DATETIME(3)   DEFAULT NULL COMMENT '失败时间',
+    `failure_stage` VARCHAR(64)   DEFAULT NULL COMMENT '失败阶段',
+    `failure_code`  VARCHAR(64)   DEFAULT NULL COMMENT '内部失败码',
+    `user_message`  VARCHAR(500)  DEFAULT NULL COMMENT '用户可见失败说明',
+    `admin_summary` VARCHAR(1000) DEFAULT NULL COMMENT '管理员排查摘要',
+    `created_at`    DATETIME(3)   NOT NULL COMMENT '创建时间',
+    `updated_at`    DATETIME(3)   NOT NULL COMMENT '更新时间',
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `uk_task_attempt_task_no` (`task_id`, `attempt_no`),
+    INDEX `idx_task_attempt_task_id` (`task_id`),
+    INDEX `idx_task_attempt_failed_at` (`failed_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='任务执行尝试表';
+
+CREATE TABLE `task_event` (
+    `id`            VARCHAR(36)  NOT NULL COMMENT 'UUIDv7 主键',
+    `task_id`       VARCHAR(36)  NOT NULL COMMENT '任务 ID',
+    `attempt_no`    INT          DEFAULT NULL COMMENT '关联 attempt',
+    `event_type`    VARCHAR(64)  NOT NULL COMMENT '事件类型',
+    `from_status`   VARCHAR(32)  DEFAULT NULL COMMENT '变化前状态',
+    `to_status`     VARCHAR(32)  DEFAULT NULL COMMENT '变化后状态',
+    `stage`         VARCHAR(64)  DEFAULT NULL COMMENT '事件阶段',
+    `progress`      INT          DEFAULT NULL COMMENT '事件进度',
+    `message`       VARCHAR(500) DEFAULT NULL COMMENT '展示摘要',
+    `payload`       JSON         DEFAULT NULL COMMENT '脱敏扩展信息',
+    `operator_type` VARCHAR(16)  NOT NULL COMMENT '操作者类型',
+    `operator_id`   VARCHAR(36)  DEFAULT NULL COMMENT '操作者 ID',
+    `trace_id`      VARCHAR(64)  NOT NULL COMMENT 'Trace ID',
+    `occurred_at`   DATETIME(3)  NOT NULL COMMENT '事件发生时间',
+    `created_at`    DATETIME(3)  NOT NULL COMMENT '写入时间',
+    PRIMARY KEY (`id`),
+    INDEX `idx_task_event_task_time` (`task_id`, `occurred_at`),
+    INDEX `idx_task_event_trace_id` (`trace_id`),
+    INDEX `idx_task_event_type_time` (`event_type`, `occurred_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='任务事件表';
+
+CREATE TABLE `task_idempotency_record` (
+    `id`               VARCHAR(36)  NOT NULL COMMENT 'UUIDv7 主键',
+    `user_id`          VARCHAR(36)  NOT NULL COMMENT '用户 ID',
+    `idempotency_key`  VARCHAR(128) NOT NULL COMMENT '幂等键',
+    `operation_type`   VARCHAR(64)  NOT NULL COMMENT '操作类型',
+    `request_hash`     VARCHAR(128) NOT NULL COMMENT '请求哈希',
+    `task_id`          VARCHAR(36)  NOT NULL COMMENT '任务 ID',
+    `response_snapshot` JSON        NOT NULL COMMENT '首次成功响应快照',
+    `expires_at`       DATETIME(3)  NOT NULL COMMENT '过期时间',
+    `created_at`       DATETIME(3)  NOT NULL COMMENT '创建时间',
+    `updated_at`       DATETIME(3)  NOT NULL COMMENT '更新时间',
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `uk_task_idempotency_user_key_op` (`user_id`, `idempotency_key`, `operation_type`),
+    INDEX `idx_task_idempotency_expires_at` (`expires_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='任务幂等记录表';

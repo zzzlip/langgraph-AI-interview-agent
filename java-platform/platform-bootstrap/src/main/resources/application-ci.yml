@@ -1,0 +1,8 @@
+# CI profile
+spring:
+  flyway:
+    enabled: false
+
+logging:
+  level:
+    com.aiinterview: INFO

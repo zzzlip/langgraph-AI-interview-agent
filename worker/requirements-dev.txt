@@ -1,0 +1,5 @@
+pytest==8.3.4
+pytest-cov==6.0.0
+mypy==1.15.0
+ruff==0.11.0
+import-linter==2.1.0
